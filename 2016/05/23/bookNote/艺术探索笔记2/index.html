@@ -85,7 +85,7 @@
 
 
 <meta name="description" content="IPC是进程间的通信。有两种情况会用到，第一种是应用本身需要用多进程模式实现，如有些模块因特殊原因需运行在单独的进程中；又如为加大可使用内存而通过多线程获取多份内存空间，第二种就是两个应用之间需要通过跨进程的方式获取所需数据。
-开启多进程模式1.在四大组件中指定android：process属性。2.通过jni在native层去fork一个新的进程。
+开启多进程模式1.在四大组件中指定android:process属性。2.通过jni在native层去fork一个新的进程。
 设置属性
 android:proces">
 <meta property="og:type" content="article">
@@ -93,15 +93,15 @@ android:proces">
 <meta property="og:url" content="http://yoursite.com/2016/05/23/bookNote/艺术探索笔记2/index.html">
 <meta property="og:site_name" content="tangr的blog">
 <meta property="og:description" content="IPC是进程间的通信。有两种情况会用到，第一种是应用本身需要用多进程模式实现，如有些模块因特殊原因需运行在单独的进程中；又如为加大可使用内存而通过多线程获取多份内存空间，第二种就是两个应用之间需要通过跨进程的方式获取所需数据。
-开启多进程模式1.在四大组件中指定android：process属性。2.通过jni在native层去fork一个新的进程。
+开启多进程模式1.在四大组件中指定android:process属性。2.通过jni在native层去fork一个新的进程。
 设置属性
 android:proces">
 <meta property="og:image" content="http://cl.ly/3y0n2x3V0Y0m/binder.png">
-<meta property="og:updated_time" content="2016-05-23T13:01:26.000Z">
+<meta property="og:updated_time" content="2016-05-23T13:11:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android开发艺术探索读书笔记二">
 <meta name="twitter:description" content="IPC是进程间的通信。有两种情况会用到，第一种是应用本身需要用多进程模式实现，如有些模块因特殊原因需运行在单独的进程中；又如为加大可使用内存而通过多线程获取多份内存空间，第二种就是两个应用之间需要通过跨进程的方式获取所需数据。
-开启多进程模式1.在四大组件中指定android：process属性。2.通过jni在native层去fork一个新的进程。
+开启多进程模式1.在四大组件中指定android:process属性。2.通过jni在native层去fork一个新的进程。
 设置属性
 android:proces">
 <meta name="twitter:image" content="http://cl.ly/3y0n2x3V0Y0m/binder.png">
@@ -312,7 +312,7 @@ android:proces">
 
       
         <p>　　<br>　　IPC是进程间的通信。有两种情况会用到，第一种是应用本身需要用多进程模式实现，如有些模块因特殊原因需运行在单独的进程中；又如为加大可使用内存而通过多线程获取多份内存空间，第二种就是两个应用之间需要通过跨进程的方式获取所需数据。</p>
-<h4 id="开启多进程模式"><a href="#开启多进程模式" class="headerlink" title="开启多进程模式"></a>开启多进程模式</h4><p>1.在四大组件中指定android：process属性。<br>2.通过jni在native层去fork一个新的进程。</p>
+<h4 id="开启多进程模式"><a href="#开启多进程模式" class="headerlink" title="开启多进程模式"></a>开启多进程模式</h4><p>1.在四大组件中指定android:process属性。<br>2.通过jni在native层去fork一个新的进程。</p>
 <p><strong>设置属性</strong></p>
 <pre><code>android:process=&quot;:remote&quot;
 </code></pre><p>相当于包名＋：remote，属于私有进程，其他应用的组件不可和他跑在同一个进程中。</p>
@@ -324,8 +324,7 @@ android:proces">
 <p><strong>静态成员属于类不属于对象，所以不会参加序列化过程，用transient标记的成员变量也不会参与</strong></p>
 <p>可以通过重写writeObject和readObject重写序列化和反序列化过程。</p>
 <h4 id="parcelable接口"><a href="#parcelable接口" class="headerlink" title="parcelable接口"></a>parcelable接口</h4><pre><code>public class User implements Parcelable {
-
-       public int userId;
+    public int userId;
     public String userName;
     public boolean isMale;
 
