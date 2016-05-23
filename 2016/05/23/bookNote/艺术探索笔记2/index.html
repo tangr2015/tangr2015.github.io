@@ -1,0 +1,767 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Android开发艺术探索," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="IPC是进程间的通信。有两种情况会用到，第一种是应用本身需要用多进程模式实现，如有些模块因特殊原因需运行在单独的进程中；又如为加大可使用内存而通过多线程获取多份内存空间，第二种就是两个应用之间需要通过跨进程的方式获取所需数据。
+开启多进程模式1.在四大组件中指定android：process属性。2.通过jni在native层去fork一个新的进程。
+设置属性
+android:proces">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发艺术探索读书笔记二">
+<meta property="og:url" content="http://yoursite.com/2016/05/23/bookNote/艺术探索笔记2/index.html">
+<meta property="og:site_name" content="tangr的blog">
+<meta property="og:description" content="IPC是进程间的通信。有两种情况会用到，第一种是应用本身需要用多进程模式实现，如有些模块因特殊原因需运行在单独的进程中；又如为加大可使用内存而通过多线程获取多份内存空间，第二种就是两个应用之间需要通过跨进程的方式获取所需数据。
+开启多进程模式1.在四大组件中指定android：process属性。2.通过jni在native层去fork一个新的进程。
+设置属性
+android:proces">
+<meta property="og:image" content="http://cl.ly/3y0n2x3V0Y0m/binder.png">
+<meta property="og:updated_time" content="2016-05-23T13:01:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发艺术探索读书笔记二">
+<meta name="twitter:description" content="IPC是进程间的通信。有两种情况会用到，第一种是应用本身需要用多进程模式实现，如有些模块因特殊原因需运行在单独的进程中；又如为加大可使用内存而通过多线程获取多份内存空间，第二种就是两个应用之间需要通过跨进程的方式获取所需数据。
+开启多进程模式1.在四大组件中指定android：process属性。2.通过jni在native层去fork一个新的进程。
+设置属性
+android:proces">
+<meta name="twitter:image" content="http://cl.ly/3y0n2x3V0Y0m/binder.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'tangr'
+    }
+  };
+</script>
+
+  <title> Android开发艺术探索读书笔记二 | tangr的blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">tangr的blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">低调地学习</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开发艺术探索读书笔记二
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-23T21:01:26+08:00" content="2016-05-23">
+              2016-05-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　<br>　　IPC是进程间的通信。有两种情况会用到，第一种是应用本身需要用多进程模式实现，如有些模块因特殊原因需运行在单独的进程中；又如为加大可使用内存而通过多线程获取多份内存空间，第二种就是两个应用之间需要通过跨进程的方式获取所需数据。</p>
+<h4 id="开启多进程模式"><a href="#开启多进程模式" class="headerlink" title="开启多进程模式"></a>开启多进程模式</h4><p>1.在四大组件中指定android：process属性。<br>2.通过jni在native层去fork一个新的进程。</p>
+<p><strong>设置属性</strong></p>
+<pre><code>android:process=&quot;:remote&quot;
+</code></pre><p>相当于包名＋：remote，属于私有进程，其他应用的组件不可和他跑在同一个进程中。</p>
+<pre><code>android:process=&quot;com.xxx.examlpe.remote&quot;
+</code></pre><p>这是完整命名方式，不会附加包名信息，属于全局进程，其他应用可以通过shareUID方式和他跑在同一进程中。</p>
+<h4 id="使用多进程会遇到的问题"><a href="#使用多进程会遇到的问题" class="headerlink" title="使用多进程会遇到的问题"></a>使用多进程会遇到的问题</h4><p>1.静态成员和单例模式完全失效<br>2.线程同步机制完全失效<br>3.SharedPreferences的可靠性下降<br>4.application会多次创建</p>
+<h4 id="实现跨进程通信的方式"><a href="#实现跨进程通信的方式" class="headerlink" title="实现跨进程通信的方式"></a>实现跨进程通信的方式</h4><p>通过intent传递数据，共享文件和sharedpreferences，基于binder的messager和aidl以及socket等。</p>
+<h4 id="serializable接口"><a href="#serializable接口" class="headerlink" title="serializable接口"></a>serializable接口</h4><p>实现这个接口并指定serialVersionUID,不指定将很可能会反序列化失败，如删除或增加成员变量。</p>
+<p><strong>静态成员属于类不属于对象，所以不会参加序列化过程，用transient标记的成员变量也不会参与</strong></p>
+<p>可以通过重写writeObject和readObject重写序列化和反序列化过程。</p>
+<h4 id="parcelable接口"><a href="#parcelable接口" class="headerlink" title="parcelable接口"></a>parcelable接口</h4><pre><code>public class User implements Parcelable {
+
+       public int userId;
+    public String userName;
+    public boolean isMale;
+
+    public Book book;
+
+    public User(int userId, String userName, boolean isMale) {
+        this.userId = userId;
+        this.userName = userName;
+        this.isMale = isMale;
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(userId);
+        out.writeString(userName);
+        out.writeInt(isMale ? 1 : 0);
+        out.writeParcelable(book, 0);
+    }
+
+    public static final Parcelable.Creator&lt;User&gt; CREATOR = new Parcelable.Creator&lt;User&gt;(){
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    private User(Parcel in) {
+        userId = in.readInt();
+        userName = in.readString();
+        isMale = in.readInt() == 1;
+        book = in.readParcelable(Thread.currentThread().getContextClassLoader());
+    }
+
+}
+</code></pre><p>由于book是另一个可序列化对象，所以他的反序列化过程需要传递当前线程的上下文类加载器，否则会报找不到类的错误。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">createFromParcel(Parcel in)</td>
+<td style="text-align:center">从序列化后的对象中创建原始对象</td>
+</tr>
+<tr>
+<td style="text-align:center">new Array(int size)</td>
+<td style="text-align:center">创建指定长度的原始对象数组</td>
+</tr>
+<tr>
+<td style="text-align:center">User(Parcel in)</td>
+<td style="text-align:center">从序列化后的对象中创建原始对象</td>
+</tr>
+<tr>
+<td style="text-align:center">writeToParcel(Parcel out,int flags)</td>
+<td style="text-align:center">将当前对象写入序列化结构中，flags为1时标识当前对象需要作为返回值返回，不能立即释放资源，几乎所有情况都为0</td>
+</tr>
+<tr>
+<td style="text-align:center">describeContents</td>
+<td style="text-align:center">如果含有文件描述符返回1，几乎所有情况都返回0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Serializable使用简单但是开销大，序列化和反序列化过程中会进行大量I/O操作<br>Parcelable适用于安卓平台上，效率很高<br>Parcelable主要用在内存序列化上，用在序列化到储存设备中或网络传输中时过程很复杂，因此这两种情况适合Serializable</strong></p>
+<h4 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h4><p>Binder是实现了IBinder接口的类，是一种跨进程通讯方式。从framework角度来说他是serviceManager链接各种manager和相应managerService的桥梁；从应用层说，他是客户端和服务端进行通信的媒介，bindservice时服务端会返回包含了业务调用的binder对象，客户端可以以此获取服务端的服务与数据。</p>
+<h4 id="Stub类和Proxy类"><a href="#Stub类和Proxy类" class="headerlink" title="Stub类和Proxy类"></a>Stub类和Proxy类</h4><p><strong>DESCRIPTOR</strong><br>Binder的唯一标识，一般用当前binder的类名表示。</p>
+<p><strong>asInterface(android.os.IBinder obj)</strong><br>用于将服务端的binder对象转换成客户端所需的AIDL接口类型的对象，这种转换过程区分进程，如果客户端与服务端位于同一进程，那么此方法返回服务端的Stub对象本身，否则返回系统封装后的Stub.Proxy对象。</p>
+<p><strong>asBinder</strong><br>返回当前binder对象</p>
+<p><strong>onTransact</strong><br>这个方法运行在服务端的binder线程池中，当客户端发起请求时，会通过底层封装后交由此方法处理。返回false则客户端请求失败，可用此做权限验证。</p>
+<p><strong>Proxy#method</strong><br>运行在客户端，内部实现：调用transact方法发起RPC（远程过程调用）请求，同时线程挂起，服务端onTransact方法会被调用，RPC过程返回后，线程继续执行取出返回的_reply中数据。</p>
+<p><strong>由于请求时线程会挂起，如果远程方法耗时，那么不能在UI线程中发起</strong><br><strong>服务端的binder方法运行在线程池中，所以binder方法不管是否耗时都应采取同步的方式实现</strong></p>
+<p><a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_2/src/com/ryg/chapter_2/manualbinder/BookManagerImpl.java" target="_blank" rel="external">代码</a></p>
+<p><img src="http://cl.ly/3y0n2x3V0Y0m/binder.png" alt="工作机制"></p>
+<p><strong>linkToDeath和unlinkToDeath</strong><br>可以给binder设置死亡代理，binder死亡时会受到通知。</p>
+<pre><code>private IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() {
+    @Override
+    public void binderDied() {
+        Log.d(TAG, &quot;binder died. tname:&quot; + Thread.currentThread().getName());
+        if (mRemoteBookManager == null)
+            return;
+        mRemoteBookManager.asBinder().unlinkToDeath(mDeathRecipient, 0);
+        mRemoteBookManager = null;
+        // TODO:这里重新绑定远程Service
+    }
+};
+
+mManager.asBinder().linkToDeath(mDeathRecipient, 0);
+</code></pre><h4 id="IPC方式"><a href="#IPC方式" class="headerlink" title="IPC方式"></a>IPC方式</h4><p><strong>1.使用bundle</strong><br>Bundle类实现了Parcelable接口，因此可以在不同进程间传输。</p>
+<p><strong>2.使用文件共享</strong><br>如在A里序列化一个对象到文件，然后在B中取出反序列化。最后恢复的对象只是内容一样，实则是一个新对象。<br>使用这种方式适合在对数据同步要求不高的进程间通信，应尽量避免并发写的情况或考虑用线程同步限制写操作。<br><strong>系统对sharedPreferences的读写有一定的缓存策略，高并发读写数据已丢失，不建议使用。</strong></p>
+<p><strong>3.使用Messenger</strong><br>Messenger底层实现是AIDL。可以通过Messenger在不同进程中传递message对象，在message中放入需要传递的数据，从而实现数据的进程间传递。</p>
+<p>实现步骤：<br>1.服务端service处理连接请求，同时创建一个Handle并通过它创建一个messenger对象，然后在onbind中返回messenger对象底层的binder。<br>2.客户端绑定service后通过返回的IBinder对象创建一个messenger，然后通过messenger发送message对象。如果需要服务端回应客户端，则还需创建一个handle并创建一个新的messenger，并把这个messenger通过message的replyTo传递给服务端。</p>
+<p><a href="https://github.com/singwhatiwanna/android-art-res/tree/master/Chapter_2/src/com/ryg/chapter_2/messenger" target="_blank" rel="external">代码</a></p>
+<p><strong>Messenger是以串行的方式处理客户端的消息，如果有大量的并发请求则不适合。他的作用主要是传递消息，无法做到跨进程调用服务端方法。</strong></p>
+<p><strong>4.使用AIDL</strong><br>1.服务端创建service来监听客户端的链接请求，然后创建一个aidl文件，将暴露给客户端的接口在这个aidl文件中声明，最后在service中实现这个aidl接口。<br>2.客户端绑定service后将返回的binder对象转成aidl接口所属的类型，接着就可以调用aidl中的方法了。</p>
+<p>aidl支持如下数据类型：</p>
+<ul>
+<li>基本数据类型</li>
+<li>String和CharSequence</li>
+<li>List:只支持ArrayList,里面每个元素必须被aidl支持</li>
+<li>Map:只支持HashMap,里面每个元素必须被aidl支持</li>
+<li>Parcelable</li>
+<li>AIDL:所以aidl接口本身也可以在aidl文件中使用</li>
+</ul>
+<p><strong>其中自定义的parcelable对象和aidl对象必须显示import尽量，不管与当前aidl文件是否位于同一个包。</strong><br><strong>如果用到了parcelable对象，必须创建一个同名的aidl文件，并在其中声明他为parcelable类型</strong></p>
+<p><a href="https://github.com/singwhatiwanna/android-art-res/tree/master/Chapter_2/src/com/ryg/chapter_2/aidl" target="_blank" rel="external">代码</a></p>
+<p>用到了支持并发读写的CopyOnWriteArrayList。<br>用到了RemoteCallbackList用于删除跨进程listener接口。当客户端进程终止后，他能自动移除客户端注册的listener。同时，他内部自动失效了线程同步的功能，所以使用它注册与解注册时不需要做线程同步工作</p>
+<p>当binder意外死亡，需重新连接。两种方法：设置deathRecipient监听；在onServiceDisconnected中重新连接远程服务。前者是在binder线程池中回调，后者是在UI线程中回调。</p>
+<p>对aidl进行权限验证：<br>1.在onbind中验证返回null。<br>2.在onTransact中返回fals，这样服务端就不会终止执行aidl中的方法。<br>验证方式：permission验证，UID和PID做验证等。</p>
+<p><strong>5.使用ContentProvider</strong></p>
+<p><a href="https://github.com/singwhatiwanna/android-art-res/tree/master/Chapter_2/src/com/ryg/chapter_2/provider" target="_blank" rel="external">代码</a></p>
+<p><strong>6.使用socket</strong><br>Socket也称为“套接字”，分为流式套接字和用户数据报套接字，分别对应网络传输控制层中的TCP和UDP协议。TCP是面向连接的协议，提供稳定的双向通信功能，本身提供超时重传机制。UDP是无连接的，提供不稳定的单向传输功能，也可实现双向传输，有更好地效率，但不保证数据一定正确传输。</p>
+<p><a href="https://github.com/singwhatiwanna/android-art-res/tree/master/Chapter_2/src/com/ryg/chapter_2/socket" target="_blank" rel="external">代码</a></p>
+<h4 id="Binder连接池"><a href="#Binder连接池" class="headerlink" title="Binder连接池"></a>Binder连接池</h4><p>当项目中存在多个aidl时，binderPool能极大地提高aidl的开发效率，并且可以避免大量的service创建。</p>
+<p><a href="https://github.com/singwhatiwanna/android-art-res/tree/master/Chapter_2/src/com/ryg/chapter_2/binderpool" target="_blank" rel="external">代码</a></p>
+<h4 id="IPC方式适用场景"><a href="#IPC方式适用场景" class="headerlink" title="IPC方式适用场景"></a>IPC方式适用场景</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">优点</th>
+<th style="text-align:center">缺点</th>
+<th style="text-align:center">适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Bundle</td>
+<td style="text-align:center">简单易用</td>
+<td style="text-align:center">只能传输bundle支持的数据类型</td>
+<td style="text-align:center">四大组件间的进程间通信</td>
+</tr>
+<tr>
+<td style="text-align:center">文件共享</td>
+<td style="text-align:center">简单易用</td>
+<td style="text-align:center">不适合高并发场景，并且无法做到进程间的即时通信</td>
+<td style="text-align:center">无并发访问情形，交换简单的数据实时性不高的场景</td>
+</tr>
+<tr>
+<td style="text-align:center">AIDL</td>
+<td style="text-align:center">功能强大，支持一对多并发通信</td>
+<td style="text-align:center">使用稍复杂，需要处理好线程同步</td>
+<td style="text-align:center">一对多通信且有RPC需求</td>
+</tr>
+<tr>
+<td style="text-align:center">Messenger</td>
+<td style="text-align:center">功能一般，支持一对多串行通信，支持实时通信</td>
+<td style="text-align:center">不能很好处理高并发情形，不支持RPC，数据通过message进行传输，因此只能传输bundle支持的数据类型</td>
+<td style="text-align:center">低并发的一对多即时通信，无RPC需求，或者无须要返回结果的RPC需求</td>
+</tr>
+<tr>
+<td style="text-align:center">ContentProvider</td>
+<td style="text-align:center">在数据源访问方面功能强大，支持一对多并发数据共享，可通过Call方法扩展其他操作</td>
+<td style="text-align:center">可以理解为受约束的AIDL，主要是提供数据源的CURD操作</td>
+<td style="text-align:center">一对多的进程间的数据共享</td>
+</tr>
+<tr>
+<td style="text-align:center">Socket</td>
+<td style="text-align:center">功能强大，可以通过网络传输字节流，支持一对多并发实时通信</td>
+<td style="text-align:center">实现细节稍微有点繁琐，不支持直接的RPC</td>
+<td style="text-align:center">网络数据交换</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Android开发艺术探索/" rel="tag">#Android开发艺术探索</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/21/bookNote/艺术探索笔记1/" rel="next" title="Android开发艺术探索读书笔记一">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索读书笔记一
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/avatar/bage.jpg"
+               alt="tangr" />
+          <p class="site-author-name" itemprop="name">tangr</p>
+          <p class="site-description motion-element" itemprop="description">Android</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tangr</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
