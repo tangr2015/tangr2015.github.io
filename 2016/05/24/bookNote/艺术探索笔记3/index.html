@@ -1,0 +1,768 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Android开发艺术探索," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1.android3.0开始，view增加了x,y(view左上角坐标)，translationX,translationY(左上角相对于父容器的偏移量,默认为0)，x=left+translationX,y=top+translationY,view在平移过程中，top和left不改变，改变的是另外四个值。
+2.getX/getY相对于当前view的x,y，getRawX/getRawY相对应屏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发艺术探索读书笔记三">
+<meta property="og:url" content="http://yoursite.com/2016/05/24/bookNote/艺术探索笔记3/index.html">
+<meta property="og:site_name" content="tangr的blog">
+<meta property="og:description" content="1.android3.0开始，view增加了x,y(view左上角坐标)，translationX,translationY(左上角相对于父容器的偏移量,默认为0)，x=left+translationX,y=top+translationY,view在平移过程中，top和left不改变，改变的是另外四个值。
+2.getX/getY相对于当前view的x,y，getRawX/getRawY相对应屏">
+<meta property="og:updated_time" content="2016-05-24T15:32:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发艺术探索读书笔记三">
+<meta name="twitter:description" content="1.android3.0开始，view增加了x,y(view左上角坐标)，translationX,translationY(左上角相对于父容器的偏移量,默认为0)，x=left+translationX,y=top+translationY,view在平移过程中，top和left不改变，改变的是另外四个值。
+2.getX/getY相对于当前view的x,y，getRawX/getRawY相对应屏">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'tangr'
+    }
+  };
+</script>
+
+  <title> Android开发艺术探索读书笔记三 | tangr的blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">tangr的blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">低调地学习</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开发艺术探索读书笔记三
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-24T22:24:48+08:00" content="2016-05-24">
+              2016-05-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1.android3.0开始，view增加了x,y(view左上角坐标)，translationX,translationY(左上角相对于父容器的偏移量,默认为0)，x=left+translationX,y=top+translationY,view在平移过程中，top和left不改变，改变的是另外四个值。</p>
+<p>2.getX/getY相对于当前view的x,y，getRawX/getRawY相对应屏幕左上角的x,y。</p>
+<p>3.<strong>touchSlop</strong>滑动的最小距离</p>
+<pre><code>ViewConfiguration.get(getContext()).getScaledTouchSlop()；
+</code></pre><p>4.<strong>VelocityTracker</strong>获取滑动中的速度</p>
+<pre><code>VelocityTracker velocityTracker = VelocityTracker.obtain();
+velocityTracker.addMovement(event);
+velocityTracker.computeCurrentVelocity(1000);
+int xVelocity = (int) velocityTracker.getXVelocity();
+int yVelocity = (int) velocityTracker.getYVelocity();
+
+velocityTracker.clear();
+velocityTracker.recycle();
+</code></pre><p>5.<strong>GestureDetector</strong>手势检测<br>首先创建对象并实现onGestureListener接口,还可以实现onDoubleTapListener监听双击行为。</p>
+<pre><code>GestureDetector mGestureDetector = new GestureDetector(this);
+//解决长按屏幕后无法拖动的现象
+mGestureDetector.setIsLongpressEnabled(false);
+</code></pre><p>然后接管目标view的onTouchEvent方法，在中添加如下实现：</p>
+<pre><code>boolean consume = mGestureDetector.onTouchEvent(event);
+return consume;
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">所属接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">onDown</td>
+<td style="text-align:center">手指轻触屏幕一瞬间，由一个ACTION_DOWN触发</td>
+<td style="text-align:center">onGestureListener</td>
+</tr>
+<tr>
+<td style="text-align:center">onShowPress</td>
+<td style="text-align:center">手指轻触屏幕,尚未松开或拖动，由一个ACTION_DOWN触发</td>
+<td style="text-align:center">onGestureListener</td>
+</tr>
+<tr>
+<td style="text-align:center">onSingleTapUp</td>
+<td style="text-align:center">手指轻触后松开，伴随着一个ACTION_UP，是单击行为</td>
+<td style="text-align:center">onGestureListener</td>
+</tr>
+<tr>
+<td style="text-align:center">onScoll</td>
+<td style="text-align:center">手指按下并拖动，由1个ACTION_DOWN和多个ACTION_MOVE触发，是拖动行为</td>
+<td style="text-align:center">onGestureListener</td>
+</tr>
+<tr>
+<td style="text-align:center">onLongPress</td>
+<td style="text-align:center">长按行为</td>
+<td style="text-align:center">onGestureListener</td>
+</tr>
+<tr>
+<td style="text-align:center">onFling</td>
+<td style="text-align:center">按下快速滑动后松开，由1个ACTION_DOWN,多个ACTION_MOVE和一个ACTION_UP触发，是快速滑动行为</td>
+<td style="text-align:center">onGestureListener</td>
+</tr>
+<tr>
+<td style="text-align:center">onDoubleTap</td>
+<td style="text-align:center">双击，不和onSingleTapConfirmed共存</td>
+<td style="text-align:center">onDoubleTapListener</td>
+</tr>
+<tr>
+<td style="text-align:center">onSingleTapConfirmed</td>
+<td style="text-align:center">严格的单击行为，即不会是双击中的一次单击</td>
+<td style="text-align:center">onDoubleTapListener</td>
+</tr>
+<tr>
+<td style="text-align:center">onDoubleTapEvent</td>
+<td style="text-align:center">发生了双击行为，ACTION_DOWN,ACTION_MOVE,ACTION_UP都会触发此回调</td>
+<td style="text-align:center">onDoubleTapListener</td>
+</tr>
+</tbody>
+</table>
+<p>6.<strong>view的滑动</strong></p>
+<p><strong>使用scrollTo/scrollBy</strong><br>只能改变view中内容的位置而不能改变view在布局中的位置。<br>view左边缘在view内容左边缘的右边时，他们的差值mScrollX为正，mScrollY同理。</p>
+<p><strong>使用动画</strong><br>属性动画要兼容3.0以下版本需用开源库<a href="http://nineoldandroids.com" target="_blank" rel="external">nineoldandroids</a>，但本质仍是view动画，位置等还是在最初状态。</p>
+<p><strong>改变布局参数</strong></p>
+<pre><code>MarginLayoutParams params = (MarginLayoutParams)mButton.getLayoutParams();
+params.width += 100;
+params.leftMargin += 100;
+mButton.requestLayout();
+//或mButton.setLayoutParams(params);
+</code></pre><p><strong>对比</strong></p>
+<ul>
+<li>scrollTo/scrollBy:操作简单，适合对view内容的滑动。</li>
+<li>动画:操作简单，主要适用于没有交互的view和实现复杂的动画效果。</li>
+<li>改变布局参数:操作稍微复杂，适用于有交互的view。</li>
+</ul>
+<p>7.<strong>弹性滑动</strong></p>
+<p><strong>使用Scroller</strong></p>
+<pre><code>Scroller mScroller = new Scroller(context);
+
+public void smoothScrollTo(int destx, int desty) {  
+    int scrollX = getScrollX();
+    int deltaX = destX - scrollX;
+    mScroller.startScroll(scrollX,0,deltaX,0,1000);
+    invalidate();
+}  
+
+@Override  
+public void computeScroll() {  
+    if (mScroller.computeScrollOffset()) {  
+        scrollTo(mScroller.getCurrX(), mScroller.getCurrY());  
+        postInvalidate();  
+    }  
+}
+</code></pre><p>startScroll中invalidate方法会导致view重绘，view的draw方法又回去调用computeScroll方法，computeScroll方法会向Scroller获取当前的scrollX和scrollY，然后通过scrollTo实现滑动，接着调用postInvalidate进行第二次重绘，如此反复。computeScroll会根据时间的流逝来计算出当前的scrollX和scrollY。</p>
+<p><strong>通过动画</strong></p>
+<p><strong>使用延时策略</strong><br>核心思想是通过发送一系列延时消息从而达到一种渐进式效果，可以使用Handle或view的postDelayed方法，也可以使用线程的sleep方法。</p>
+<p>8.<strong>view的事件分发机制</strong></p>
+<pre><code>public boolean dispatchTouchEvent(MotionEvent ev){
+    boolean consume = false;
+    if(onInterceptTouchEvent(ev)){
+        consume = onTouchEvent(ev);
+    }else{
+        consume = child.dispatchTouchEvent(ev);
+    }
+    return consume;
+}
+</code></pre><p>一些结论：<br>0.如果view设置了onTouchListener且其中的onTouch返回false当前view的onTouchEvent方法才会被调用，返回true则不会被调用。onClickListener优先级最低。<br>1.同一事件序列是以down开始，up结束。<br>2.正常情况一个事件序列只能被一个view拦截且消耗。通过特殊手段view也可以将本该自己处理的事件通过ontouchevent强行传递给其他view处理。<br>3.某个view一旦决定拦截，那么这一个事件序列都只能由他处理，并且onInterceptTouchEvent不会再被调用。<br>4.某个view如果不消耗action_down事件，那么同一事件序列的其他事件都不会再交给他处理。<br>5.如果view不消耗除了action_down以外的事件，那么这个点击事件会消失，父元素的onTouchEvent不会被调用，当前view可以持续收到后续事件，最终这些消失的点击事件会传递给activity处理。<br>6.view group默认不拦截任何事件。<br>7.view没有onIntercepyTouchEvent。<br>8.view的onTouchEvent默认返回true消耗事件，除非他是不可点击的(clickable和longClickable同时为false)。view的longClickable默认为false，button的clickable默认为true，textview的clickable默认为false。<br>9.view的enable属性不影响onTouchEvent的默认返回值。<br>10.onClick会发生的前提是当前view是可点击的，并且他收到了down和up的事件。<br>11.事件总是从外向内传递，view可以通过requestDisallowInterceorTouchEvent方法干扰父元素的事件分发过程，但是action_down事件除外。</p>
+<p>9.<strong>view的滑动冲突</strong><br>不管多复杂的滑动冲突，他们之间的区别仅仅是滑动规则的不同而已。我们需要找到一种不依赖具体的滑动规则的通用解决办法，然后根据不同的业务需求修改有关滑动规则的逻辑即可。</p>
+<p><strong>外部拦截法</strong></p>
+<pre><code>@Override
+public boolean onInterceptTouchEvent(MotionEvent event) {
+    boolean intercepted = false;
+    int x = (int) event.getX();
+    int y = (int) event.getY();
+    switch (event.getAction()) {
+    case MotionEvent.ACTION_DOWN: {
+        intercepted = false;
+        break;
+    }
+    case MotionEvent.ACTION_MOVE: {
+        if (父容器需要当前点击事件) {
+            intercepted = true;
+        } else {
+            intercepted = false;
+        }
+        break;
+    }
+    case MotionEvent.ACTION_UP: {
+        intercepted = false;
+        break;
+    }
+    default:
+        break;
+    }
+    mLastXIntercept = x;
+    mLastYIntercept = y;
+    return intercepted;
+}
+</code></pre><p><strong>内部拦截法</strong></p>
+<p>子容器</p>
+<pre><code>@Override
+public boolean dispatchTouchEvent(MotionEvent event) {
+    int x = (int) event.getX();
+    int y = (int) event.getY();
+    switch (event.getAction()) {
+    case MotionEvent.ACTION_DOWN: {
+        mHorizontalScrollViewEx2.requestDisallowInterceptTouchEvent(true);
+        break;
+    }
+    case MotionEvent.ACTION_MOVE: {
+        int deltaX = x - mLastX;
+        int deltaY = y - mLastY;
+        if (父容器需要此类点击事件) {
+            mHorizontalScrollViewEx2.requestDisallowInterceptTouchEvent(false);
+        }
+        break;
+    }
+    case MotionEvent.ACTION_UP: {
+        break;
+    }
+    default:
+        break;
+    }
+
+    mLastX = x;
+    mLastY = y;
+    return super.dispatchTouchEvent(event);
+}
+</code></pre><p>父容器</p>
+<pre><code>@Override
+public boolean onInterceptTouchEvent(MotionEvent event) {
+    int action = event.getAction();
+    if (action == MotionEvent.ACTION_DOWN) {
+        return false;
+    } else {
+        return true;
+    }
+}
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Android开发艺术探索/" rel="tag">#Android开发艺术探索</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/23/bookNote/艺术探索笔记2/" rel="next" title="Android开发艺术探索读书笔记二">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索读书笔记二
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/avatar/bage.jpg"
+               alt="tangr" />
+          <p class="site-author-name" itemprop="name">tangr</p>
+          <p class="site-description motion-element" itemprop="description">Android</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tangr</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
