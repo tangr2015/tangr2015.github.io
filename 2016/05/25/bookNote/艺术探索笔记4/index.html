@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/05/25/bookNote/艺术探索笔记4/index.html">
 <meta property="og:site_name" content="tangr的blog">
 <meta property="og:description" content="ViewRoot和DecorViewViewRoot对应于ViewRootImpl类，是连接windowManager和decorview的纽带，view的三大流程均通过ViewRoot完成。当activity被创建后，decorview会添加到window中，同时会创建ViewRootImpl对象，并将ViewRootImpl和decorview建立关联。decorview是顶级view，实则是">
-<meta property="og:updated_time" content="2016-05-25T14:13:04.000Z">
+<meta property="og:updated_time" content="2016-05-26T14:03:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android开发艺术探索读书笔记四">
 <meta name="twitter:description" content="ViewRoot和DecorViewViewRoot对应于ViewRootImpl类，是连接windowManager和decorview的纽带，view的三大流程均通过ViewRoot完成。当activity被创建后，decorview会添加到window中，同时会创建ViewRootImpl对象，并将ViewRootImpl和decorview建立关联。decorview是顶级view，实则是">
@@ -337,45 +337,12 @@
 <p><strong>viewGroup的measure过程</strong><br>viewgroup除了完成了自己的measure过程外，还会在onmeasure中遍历measure各子元素，子元素再递归执行这个过程。viewgroup是一个抽象类，其测量过程的onmeasure方法需要各个子类去实现。</p>
 <p>在activity中oncreate获取view高宽信息的四个方法：</p>
 <p><strong>onWindowFocusChanged</strong><br>当activity的窗口得到或失去焦点时均会被调用，如onresume和onpause。</p>
-<pre><code>@Override
-public void onWindowFocusChanged(boolean hasFocus) {
-    super.onWindowFocusChanged(hasFocus);
-    if (hasFocus) {
-        int width = view.getMeasuredWidth();
-        int height = view.getMeasuredHeight();
-    }
-}
-</code></pre><p><strong>view.post(runnable)</strong><br>Looper调用runnable时view已经初始化好了。</p>
-<pre><code>@Override
-protected void onStart() {
-    super.onStart();
-    view.post(new Runnable() {
-
-        @Override
-        public void run() {
-            int width = view.getMeasuredWidth();
-            int height = view.getMeasuredHeight();
-        }
-    });
-}
-</code></pre><p><strong>viewTreeObserver</strong><br>使用viewTreeObserver众多回调可以完成，如OnGlobalLayoutListener，当view树的状态发生改变或view树内部的view可见性发生改变时回调onGlobalLayout方法。</p>
-<pre><code>@Override
-protected void onStart() {
-    super.onStart();
-
-    ViewTreeObserver observer = view.getViewTreeObserver();
-    observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-        @SuppressWarnings(&quot;deprecation&quot;)
-        @Override
-        public void onGlobalLayout() {
-            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            int width = view.getMeasuredWidth();
-            int height = view.getMeasuredHeight();
-        }
-    });
-}
-</code></pre><p><strong>通过手动对view进行测量</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onWindowFocusChanged</span><span class="params">(<span class="keyword">boolean</span> hasFocus)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onWindowFocusChanged(hasFocus);</span><br><span class="line">    <span class="keyword">if</span> (hasFocus) &#123;</span><br><span class="line">        <span class="keyword">int</span> width = view.getMeasuredWidth();</span><br><span class="line">        <span class="keyword">int</span> height = view.getMeasuredHeight();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>view.post(runnable)</strong><br>Looper调用runnable时view已经初始化好了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onStart();</span><br><span class="line">    view.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">int</span> width = view.getMeasuredWidth();</span><br><span class="line">            <span class="keyword">int</span> height = view.getMeasuredHeight();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>viewTreeObserver</strong><br>使用viewTreeObserver众多回调可以完成，如OnGlobalLayoutListener，当view树的状态发生改变或view树内部的view可见性发生改变时回调onGlobalLayout方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onStart();</span><br><span class="line">    ViewTreeObserver observer = view.getViewTreeObserver();</span><br><span class="line">     observer.addOnGlobalLayoutListener(<span class="keyword">new</span> OnGlobalLayoutListener() &#123;</span><br><span class="line">     	<span class="meta">@SuppressWarnings</span>(<span class="string">"deprecation"</span>)</span><br><span class="line">     	<span class="meta">@Override</span></span><br><span class="line">     	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     	   view.getViewTreeObserver().removeGlobalOnLayoutListener(<span class="keyword">this</span>);</span><br><span class="line">     	   <span class="keyword">int</span> width = view.getMeasuredWidth();</span><br><span class="line">     	   <span class="keyword">int</span> height = view.getMeasuredHeight();</span><br><span class="line">     	&#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>通过手动对view进行测量</strong></p>
 <p>2.<strong>layout</strong><br>Layout作用是viewgroup用来确定子元素的位置，当viewgroup的位置被确定后，他在onlayout中遍历所有子元素并调用其layout方法，在layout方法中，onlayout又会被调用。</p>
 <p>在onlayout中得出最终宽高。</p>
 <p>3.<strong>draw</strong><br>绘制流程：</p>
@@ -426,6 +393,10 @@ protected void onStart() {
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/26/bookNote/艺术探索笔记5/" rel="prev" title="Android开发艺术探索读书笔记五">
+                Android开发艺术探索读书笔记五 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -484,7 +455,7 @@ protected void onStart() {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

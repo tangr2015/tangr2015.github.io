@@ -1,0 +1,635 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Android开发艺术探索," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="RemoteViews是一个能在其他进程中显示的view结构，他自身会提供一组基础的操作用于跨进程更新他的界面。他在android中的使用场景有通知栏和桌面部件。
+实例代码
+PendingIntent概述pendingIntent与Intent的区别在于pendingIntent是在将来某个不确定的时刻发生，而Intetn是立即发生。要给RemoteViews设置点击事件，就必须使用pending">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发艺术探索读书笔记五">
+<meta property="og:url" content="http://yoursite.com/2016/05/26/bookNote/艺术探索笔记5/index.html">
+<meta property="og:site_name" content="tangr的blog">
+<meta property="og:description" content="RemoteViews是一个能在其他进程中显示的view结构，他自身会提供一组基础的操作用于跨进程更新他的界面。他在android中的使用场景有通知栏和桌面部件。
+实例代码
+PendingIntent概述pendingIntent与Intent的区别在于pendingIntent是在将来某个不确定的时刻发生，而Intetn是立即发生。要给RemoteViews设置点击事件，就必须使用pending">
+<meta property="og:updated_time" content="2016-05-26T13:49:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发艺术探索读书笔记五">
+<meta name="twitter:description" content="RemoteViews是一个能在其他进程中显示的view结构，他自身会提供一组基础的操作用于跨进程更新他的界面。他在android中的使用场景有通知栏和桌面部件。
+实例代码
+PendingIntent概述pendingIntent与Intent的区别在于pendingIntent是在将来某个不确定的时刻发生，而Intetn是立即发生。要给RemoteViews设置点击事件，就必须使用pending">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'tangr'
+    }
+  };
+</script>
+
+  <title> Android开发艺术探索读书笔记五 | tangr的blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">tangr的blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">低调地学习</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开发艺术探索读书笔记五
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-26T19:15:45+08:00" content="2016-05-26">
+              2016-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>RemoteViews是一个能在其他进程中显示的view结构，他自身会提供一组基础的操作用于跨进程更新他的界面。他在android中的使用场景有通知栏和桌面部件。</p>
+<p><a href="https://github.com/singwhatiwanna/android-art-res/tree/master/Chapter_5/src/com/ryg/chapter_5" target="_blank" rel="external">实例代码</a></p>
+<h4 id="PendingIntent概述"><a href="#PendingIntent概述" class="headerlink" title="PendingIntent概述"></a>PendingIntent概述</h4><p>pendingIntent与Intent的区别在于pendingIntent是在将来某个不确定的时刻发生，而Intetn是立即发生。要给RemoteViews设置点击事件，就必须使用pendingIntent，pendingIntent通过send和cancel方法来发送和取消特定的待定intent。</p>
+<p>pendingIntent的匹配规则为：如果两个pendingIntent内部的intent和requestcode都相同，那么这两个pendingIntent相同。intent的匹配规则：如果两个intent的componentName和intent-filter都相同，那么这两个intent相同。extras不参与intent匹配过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//PendingIntent的主要方法</span></span><br><span class="line">getActivity(Context context,<span class="keyword">int</span> requestCode,Intent intent,<span class="keyword">int</span> flags)</span><br><span class="line">getService(Context context,<span class="keyword">int</span> requestCode,Intent intent,<span class="keyword">int</span> flags)</span><br><span class="line">getBroadcast(Context context,<span class="keyword">int</span> requestCode,Intent intent,<span class="keyword">int</span> flags)</span><br></pre></td></tr></table></figure>
+<p>requestCode表示pendingIntent发送方的请求码，多数情况下设0即可，但会影响到flags的效果。<br>flags类型：<br><strong>FLAG_ONE_SHOT</strong>:当前描述的pendingintent只能被使用一次，然后他就会被自动cancel，如果后续还有相同的pendingintent，那么她们的send方法会调用失败。对于通知栏消息来说，那么同类通知只能使用一次，后续的通知单击后将无法打开。<br><strong>FLAG_NO_CREATE</strong>:当前pendingintent不会主动创建，如果该pendingintent之前不存在，那么getActivity等会返回null，即pendingIntent获取失败。较少使用。<br><strong>FLAG_CANCEL_CURRENT</strong>:当前描述的pendingIntent如果已经存在，那么他们都会被cancel，然后系统会创建一个新的pendingIntent。对通知栏来说，那些cancel的消息单击后将无法打开。<br><strong>FLAG_UPDATE_CURRENT</strong>:当前描述的pendingIntent如果已经存在，那么它们都会被更新，即它们的intent中的extras都会被替换成最新的。</p>
+<p>如果manager.notify(1,notification)的第一个参数是常量，那么多次调用notify只能弹出一个通知，后续通知会将之前的完全替换掉，不管pendingIntent是否匹配。如果ID不同，那么多次调用会弹出多个通知，如果pendingIntent不匹配，那么这些通知之间互不干扰，如果pendingIntent匹配，就得看flag标记位了，采用FLAG_ONE_SHOT时后续通知中的pendingIntent会和第一条通知保持完全一致，包括extras，单击任何一条通知后，剩下通知均无法再打开。FLAG_CANCEL_CURRENT时，只有最新的通知才可以打开。FLAG_UPDATE_CURRENT时，之前通知中的pendingIntent会被更新，与最新的一条通知保持一致，包括extras，并且都能打开。</p>
+<h4 id="RemoteViews的内部机制"><a href="#RemoteViews的内部机制" class="headerlink" title="RemoteViews的内部机制"></a>RemoteViews的内部机制</h4><p>支持类型：<br><strong>layout</strong>:frameLayout,linearLayout,relativeLayout,gridLayout<br><strong>view</strong>:button,imageButton,imageView,progressBar,textView,viewFlipper,listView,gridView,<br>stackView,adapterViewFlipper,viewStub,analogClock,Chronometer</p>
+<p>常用方法：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">setTextViewText(int viewId, CharSequence text)</td>
+<td style="text-align:left">设置textview的文本</td>
+</tr>
+<tr>
+<td style="text-align:left">setTextViewTextSize(int viewId, int units, float size)</td>
+<td style="text-align:left">设置textview的字体大小</td>
+</tr>
+<tr>
+<td style="text-align:left">setTextColor(int viewId, int color)</td>
+<td style="text-align:left">设置textview的字体颜色</td>
+</tr>
+<tr>
+<td style="text-align:left">setImageViewResource(int viewId, int srcId)</td>
+<td style="text-align:left">设置imageview的图片资源</td>
+</tr>
+<tr>
+<td style="text-align:left">setImageViewBitmap(int viewId, Bitmap bitmap)</td>
+<td style="text-align:left">设置imageview的图片资源</td>
+</tr>
+<tr>
+<td style="text-align:left">setInt(int viewId, String methodName, int value)</td>
+<td style="text-align:left">反射调用view对象的参数类型为int的方法</td>
+</tr>
+<tr>
+<td style="text-align:left">setLong(int viewId, String methodName, long value)</td>
+<td style="text-align:left">反射调用view对象的参数类型为long的方法</td>
+</tr>
+<tr>
+<td style="text-align:left">setBoolean(int viewId, String methodName, boolean value)</td>
+<td style="text-align:left">反射调用view对象的参数类型为boolean的方法</td>
+</tr>
+<tr>
+<td style="text-align:left">setOnClickPendingIntent(int viewId, PendingIntent pendingIntent)</td>
+<td style="text-align:left">为view添加点击事件，事件类型只能是pendingIntent</td>
+</tr>
+</tbody>
+</table>
+<p>notificationManager通过binder和systemServer进程中的notificationManagerService进行通信，由此可知通知栏中布局文件是在notificationManagerService中被加载，而notificationManagerService运行在系统的systemServer中。<br>首先实现了parcelable接口的remoteviews会通过binder传递到systemserver进程，然后通过layoutinflater去加载remoteviews的布局文件，实际在systemserver中加载后的布局文件是普通的view，然后执行界面更新任务。set方法并不是立即执行的，要等到remoteviews被加载后才执行，当需要更新时，通过notificationManager提交更新任务。每调用一次set方法，remoteviews会添加一个action对象，这个action对象实现了parcelable接口，里面封装了一个view操作。当notificationManager提交更新时，这些action对象就会传输到远程进程中，远程通过remoteviews的apply方法遍历所有action对象并调用它们的apply方法来进行view的更新操作。</p>
+<p><a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_5/src/com/ryg/chapter_5/MainActivity.java" target="_blank" rel="external">通知栏底层实现</a></p>
+<p>如果A和B属于不同应用，通过资源ID可能无效，可以通过约定的资源名称来加载布局文件，再调用remoteviews的reapply方法将B中对view所做的更新操作作用的A中加载的view上。与apply区别是apply会加载布局并更新界面，reapply只会更新界面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//View view = remoteViews.apply(this, mRemoteViewsContent);</span></span><br><span class="line"><span class="keyword">int</span> layoutId = getResources().getIdentifier(<span class="string">"layout_simulated_notification"</span>, <span class="string">"layout"</span>, getPackageName());</span><br><span class="line">View view = getLayoutInflater().inflate(layoutId, mRemoteViewsContent, <span class="keyword">false</span>);</span><br><span class="line">remoteViews.reapply(<span class="keyword">this</span>, view);</span><br><span class="line">mRemoteViewsContent.addView(view);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Android开发艺术探索/" rel="tag">#Android开发艺术探索</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/25/bookNote/艺术探索笔记4/" rel="next" title="Android开发艺术探索读书笔记四">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索读书笔记四
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/avatar/bage.jpg"
+               alt="tangr" />
+          <p class="site-author-name" itemprop="name">tangr</p>
+          <p class="site-description motion-element" itemprop="description">Android</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tangr</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
