@@ -1,0 +1,692 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Android开发艺术探索," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Drawable表示的是一种可以在canvas上进行绘制的抽象的概念，常用作view的背景。优点是使用简单，比view成本低。非图片类型的Drawable占用空间较小，对减小apk的大小很有帮助。图片形成的drawable有内部宽高，颜色形成的drawable则没有，内部宽高不等同于他的大小。
+分类1.BitmapDrawable
+表示一张图片。含以下属性：android:src：图片的资源id。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发艺术探索读书笔记六">
+<meta property="og:url" content="http://yoursite.com/2016/05/27/bookNote/艺术探索笔记6/index.html">
+<meta property="og:site_name" content="tangr的blog">
+<meta property="og:description" content="Drawable表示的是一种可以在canvas上进行绘制的抽象的概念，常用作view的背景。优点是使用简单，比view成本低。非图片类型的Drawable占用空间较小，对减小apk的大小很有帮助。图片形成的drawable有内部宽高，颜色形成的drawable则没有，内部宽高不等同于他的大小。
+分类1.BitmapDrawable
+表示一张图片。含以下属性：android:src：图片的资源id。">
+<meta property="og:updated_time" content="2016-05-27T14:57:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发艺术探索读书笔记六">
+<meta name="twitter:description" content="Drawable表示的是一种可以在canvas上进行绘制的抽象的概念，常用作view的背景。优点是使用简单，比view成本低。非图片类型的Drawable占用空间较小，对减小apk的大小很有帮助。图片形成的drawable有内部宽高，颜色形成的drawable则没有，内部宽高不等同于他的大小。
+分类1.BitmapDrawable
+表示一张图片。含以下属性：android:src：图片的资源id。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'tangr'
+    }
+  };
+</script>
+
+  <title> Android开发艺术探索读书笔记六 | tangr的blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">tangr的blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">低调地学习</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开发艺术探索读书笔记六
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-27T22:04:17+08:00" content="2016-05-27">
+              2016-05-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Drawable表示的是一种可以在canvas上进行绘制的抽象的概念，常用作view的背景。优点是使用简单，比view成本低。非图片类型的Drawable占用空间较小，对减小apk的大小很有帮助。图片形成的drawable有内部宽高，颜色形成的drawable则没有，内部宽高不等同于他的大小。</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>1.<strong>BitmapDrawable</strong></p>
+<p>表示一张图片。含以下属性：<br><strong>android:src</strong>：图片的资源id。<br><strong>android:antialias</strong>：是否开启抗锯齿功能。开启后会是图片变得平滑，但会轻微降低图片清晰度，建议开启。<br><strong>android:dither</strong>：是否开启抖动效果。当图片的像素设置和手机屏幕的像素设置不一致时，开启这个选项能使高质量图片在低质量屏幕上还能保持较好的显示效果。建议开启。<br><strong>android:filter</strong>：是否开启过滤效果。当图片尺寸被拉伸或压缩时，开启可保持较好的显示效果，建议开启。<br><strong>android:gravity</strong>：当图片小于容器尺寸时，可以进行定位。可用“|”组合使用。<br><strong>tileMode</strong>：平铺模式。开启后gravity属性会被忽略。disable关闭，repeat水平和竖直方向平铺，mirror水平和竖直方向上镜面投影效果，clamp图片四周的像素会扩展到周围区域。</p>
+<p>2.<strong>ShapeDrawable</strong></p>
+<p>为颜色构造图形。含以下属性：<br><strong>android:shape</strong>：rectangle，oval，line，ring。默认矩形，line和ring必须要&lt;stroke&gt;标签指定线宽和颜色等。ring属性：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Value</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">android:innerRadius</td>
+<td style="text-align:left">圆环的内半径，和android:innerRadiusRatio同时存在时，以android:innerRadius为准</td>
+</tr>
+<tr>
+<td style="text-align:left">android:thickness</td>
+<td style="text-align:left">圆环的厚度，即外半径减去内半径的大小，和android:thicknessRatio同时存在时，以android:thickness为准</td>
+</tr>
+<tr>
+<td style="text-align:left">android:innerRadiusRatio</td>
+<td style="text-align:left">内半径占整个drawable宽度的比例，默认值为9。如果为n，那么内半径=宽度/n</td>
+</tr>
+<tr>
+<td style="text-align:left">android:thicknessRatio</td>
+<td style="text-align:left">厚度占整个drawable宽度的比例，默认值为3。如果为n，那么厚度=宽度/n</td>
+</tr>
+<tr>
+<td style="text-align:left">android:useLevel</td>
+<td style="text-align:left">一般都应该使用false，否则可能无法达到预期效果，除非当作levelListDrawable来使用</td>
+</tr>
+</tbody>
+</table>
+<p>&lt;corners&gt;<br>android:radius——为四个角设定相同的角度，优先级较低，会被其他四个属性覆盖。<br>android:topLeftRadius,android:topRightRadius,android:bottomLeftRadius,android:bottomRightRadius</p>
+<p>&lt;gradient&gt;<br>与&lt;solid&gt;排斥，solid是纯色填充，gradient表示渐变效果。<br>android:angle——渐变角度，默认为0，必须是45倍数，0是从左到右，90是从下到上。<br>android:centerX——渐变中心点的横坐标。<br>android:centerY——渐变中心点的纵坐标。<br>android:startColor——渐变的起始色。<br>android:centerColor——渐变的中间色。<br>android:endColor——渐变的结束色。<br>android:gradientRadius——渐变半径，仅当android:type=”radial”时有效。<br>android:useLevel——一般为false，当drawable作为levelListDrawable使用时为true。<br>android:type——linear线性渐变，radial径向渐变，sweep扫描线渐变。</p>
+<p>&lt;solid&gt;<br>纯色填充，android:color指定shape填充的颜色。</p>
+<p>&lt;stroke&gt;<br>shape的描边<br>android:width——宽度。<br>android:color——颜色。<br>android:dashWidth——虚线线段的宽度。<br>android:dashGap——虚线线段的间隔。与dashWidth属性任一个为0虚线效果不能生效。</p>
+<p>&lt;padding&gt;<br>android:left,android:top,android:right,android:bottom</p>
+<p>&lt;size&gt;<br>android:width,android:height<br>为shapedrawable的宽高，但作为view的背景时，shape还是会被拉伸或缩小为view的大小。</p>
+<p>3.<strong>LayerDrawable</strong><br>对应的标签是&lt;layer-list&gt;，表示一种层次化的drawable集合，通过将drawable放在不同层上而到达一种叠加的效果。</p>
+<p>一个layer-list可以包含多个item，每个item表示一个drawable。有android:left,android:top,android:right,android:bottom代表drawable相对于view上下左右的偏移量。android:drawable可直接引用一个drawable资源。下面的item会覆盖上面的item。</p>
+<p>4.<strong>StateListDrawable</strong><br>对应于&lt;selector&gt;标签，每个drawable对应一种view的状态。主要设置可点击的view的背景。</p>
+<p>android:constantSize——true表示statelistdrawable的固定大小保持不变，此时固有大小是内部所有drawable固有大小的最大值，false会随着状态的改变而改变。默认false。<br>android:dither——是否开启抖动效果，默认true。<br>android:variablePadding是否随着状态改变，false表示StateListDrawable的padding是所有drawable的padding最大值。默认false，不建议开启。<br>&lt;item&gt;表示不同状态的drawable，android:state_enabled，android:state_pressed，android:state_selected，android:state_checked，android:state_focused。默认的item应该放在最后一条且不附带任何状态。</p>
+<p>5.<strong>LevelListDrawable</strong><br>对应&lt;level-list&gt;，每个item代表一个drawable，并有对应的等级范围，由android:minLevel和android:maxLevel指定。当用作view的背景时，可以通过drawable的setlevel切换drawable，当作为imageview的前景时，通过imageview的setimagelevel切换drawable。level范围0-10000。</p>
+<p>6.<strong>TransitionDrawable</strong><br>对应&lt;transition&gt;，用于实现两个drawable之间的淡入淡出效果。</p>
+<p>7.<strong>InsetDrawable</strong><br>对应&lt;inset&gt;，可以将其他drawable内嵌到自己当中，并在四周留出一定的间距。当view希望自己的背景比自己实际区域小时可以采用。android:insetTop,android:insetBottom,android:insetLeft,android:insetRight表示四周的内凹大小。</p>
+<p>8.<strong>ScaleDrawable</strong><br>对应&lt;scale&gt;，根据自己的等级将指定的drawable缩放到一定的比例。<br>android:scaleGravity,android:scaleWidth,android:scaleHeight以百分比形式表示缩放比例。<br>直接使用这个drawable资源还不够，还需要设置ScaleDrawable的等级大于0小于10000.</p>
+<p>9.<strong>ClipDrawable</strong><br>对应&lt;clip&gt;，根据android:clipOrientation和android:gravity控制裁剪。gravity可以用”|”组合使用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">选项</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">top</td>
+<td style="text-align:left">内部drawable放在容器顶部，如果竖直裁剪，那么从底部开始</td>
+</tr>
+<tr>
+<td style="text-align:left">bottom</td>
+<td style="text-align:left">放在底部，如果竖直裁剪，那么从顶部开始</td>
+</tr>
+<tr>
+<td style="text-align:left">left</td>
+<td style="text-align:left">放在左边，如果水平裁剪，那么从右边开始，默认值</td>
+</tr>
+<tr>
+<td style="text-align:left">right</td>
+<td style="text-align:left">放在右边，如果水平裁剪，那么从左边开始</td>
+</tr>
+<tr>
+<td style="text-align:left">center_vertical</td>
+<td style="text-align:left">竖直居中，如果竖直裁剪，那么上下同时开始</td>
+</tr>
+<tr>
+<td style="text-align:left">fill_vertical</td>
+<td style="text-align:left">竖直填充，如果竖直裁剪，仅当level为0即完全裁剪时才有裁剪行为</td>
+</tr>
+<tr>
+<td style="text-align:left">center_horizontal</td>
+<td style="text-align:left">水平居中，如果水平裁剪，那么左右同时开始</td>
+</tr>
+<tr>
+<td style="text-align:left">fill_horizontal</td>
+<td style="text-align:left">水平填充，如果水平裁剪，仅当level为0才有裁剪行为</td>
+</tr>
+<tr>
+<td style="text-align:left">center</td>
+<td style="text-align:left">居中，如果竖直裁剪，那么上下同时开始，如果水平裁剪，那么左右同时开始</td>
+</tr>
+<tr>
+<td style="text-align:left">fill</td>
+<td style="text-align:left">填充，仅当level为0才有裁剪效果</td>
+</tr>
+<tr>
+<td style="text-align:left">clip_vertical</td>
+<td style="text-align:left">竖直方向的裁剪，较少使用</td>
+</tr>
+<tr>
+<td style="text-align:left">clip_horizontal</td>
+<td style="text-align:left">水平方向的裁剪，较少使用</td>
+</tr>
+</tbody>
+</table>
+<p>接着还需设置ClipDrawable的等级，0为完全裁剪，10000表示不裁剪，8000表示裁剪20%的区域。</p>
+<h4 id="自定义Drawable"><a href="#自定义Drawable" class="headerlink" title="自定义Drawable"></a>自定义Drawable</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomDrawable</span> <span class="keyword">extends</span> <span class="title">Drawable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Paint mPaint;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomDrawable</span><span class="params">(<span class="keyword">int</span> color)</span> </span>&#123;</span><br><span class="line">        mPaint = <span class="keyword">new</span> Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mPaint.setColor(color);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Rect r = getBounds();</span><br><span class="line">        <span class="keyword">float</span> cx = r.exactCenterX();</span><br><span class="line">        <span class="keyword">float</span> cy = r.exactCenterY();</span><br><span class="line">        canvas.drawCircle(cx, cy, Math.min(cx, cy), mPaint);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAlpha</span><span class="params">(<span class="keyword">int</span> alpha)</span> </span>&#123;</span><br><span class="line">        mPaint.setAlpha(alpha);</span><br><span class="line">        invalidateSelf();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setColorFilter</span><span class="params">(ColorFilter cf)</span> </span>&#123;</span><br><span class="line">        mPaint.setColorFilter(cf);</span><br><span class="line">        invalidateSelf();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getOpacity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// not sure, so be safe</span></span><br><span class="line">        <span class="keyword">return</span> PixelFormat.TRANSLUCENT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当drawable有固定大小时最好重写getIntrinsicWidth和getIntrinsicHeight方法，因为他会影响到view的wrap_content布局，如自定义drawable是绘制一张图片，那么这时drawable的内部大小就可以选择图片的大小。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Android开发艺术探索/" rel="tag">#Android开发艺术探索</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/26/bookNote/艺术探索笔记5/" rel="next" title="Android开发艺术探索读书笔记五">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索读书笔记五
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/27/bookNote/艺术探索笔记7/" rel="prev" title="Android开发艺术探索读书笔记七">
+                Android开发艺术探索读书笔记七 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/avatar/bage.jpg"
+               alt="tangr" />
+          <p class="site-author-name" itemprop="name">tangr</p>
+          <p class="site-description motion-element" itemprop="description">Android</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tangr</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
