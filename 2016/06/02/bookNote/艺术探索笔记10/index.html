@@ -84,22 +84,16 @@
 
 
 
-<meta name="description" content="1.跳到第二个activity时先执行onpause，在启动后才执行onstop，因此onpause中不宜进行耗时操作。
-2.activity异常停止时在stop前调用onsaveinstancestate通过bundle储存数据，重新启动时会在start后调用onrestoreinstancestate取得数据，也可在create中，但是得先判断bundle是否为空。
-3.设置Android：c">
+<meta name="description" content="android消息机制主要指handler的运行机制，handler的运行需要底层的messagequeue和looper的支撑。MessageQueue是以单链表的数据结构存储消息列表但是以队列的形式对外提供插入和删除消息操作的消息队列。MessageQueue只是消息的存储单元，而Looper则是以无限循环的形式去查找是否有新消息，如果有的话就去处理消息，否则就一直等待着。looper中还有一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android开发艺术探索读书笔记一">
-<meta property="og:url" content="http://yoursite.com/2016/05/21/bookNote/艺术探索笔记1/index.html">
+<meta property="og:title" content="Android开发艺术探索读书笔记十">
+<meta property="og:url" content="http://yoursite.com/2016/06/02/bookNote/艺术探索笔记10/index.html">
 <meta property="og:site_name" content="tangr的blog">
-<meta property="og:description" content="1.跳到第二个activity时先执行onpause，在启动后才执行onstop，因此onpause中不宜进行耗时操作。
-2.activity异常停止时在stop前调用onsaveinstancestate通过bundle储存数据，重新启动时会在start后调用onrestoreinstancestate取得数据，也可在create中，但是得先判断bundle是否为空。
-3.设置Android：c">
-<meta property="og:updated_time" content="2016-05-21T14:53:10.000Z">
+<meta property="og:description" content="android消息机制主要指handler的运行机制，handler的运行需要底层的messagequeue和looper的支撑。MessageQueue是以单链表的数据结构存储消息列表但是以队列的形式对外提供插入和删除消息操作的消息队列。MessageQueue只是消息的存储单元，而Looper则是以无限循环的形式去查找是否有新消息，如果有的话就去处理消息，否则就一直等待着。looper中还有一">
+<meta property="og:updated_time" content="2016-06-02T16:20:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android开发艺术探索读书笔记一">
-<meta name="twitter:description" content="1.跳到第二个activity时先执行onpause，在启动后才执行onstop，因此onpause中不宜进行耗时操作。
-2.activity异常停止时在stop前调用onsaveinstancestate通过bundle储存数据，重新启动时会在start后调用onrestoreinstancestate取得数据，也可在create中，但是得先判断bundle是否为空。
-3.设置Android：c">
+<meta name="twitter:title" content="Android开发艺术探索读书笔记十">
+<meta name="twitter:description" content="android消息机制主要指handler的运行机制，handler的运行需要底层的messagequeue和looper的支撑。MessageQueue是以单链表的数据结构存储消息列表但是以队列的形式对外提供插入和删除消息操作的消息队列。MessageQueue只是消息的存储单元，而Looper则是以无限循环的形式去查找是否有新消息，如果有的话就去处理消息，否则就一直等待着。looper中还有一">
 
 
 
@@ -117,7 +111,7 @@
   };
 </script>
 
-  <title> Android开发艺术探索读书笔记一 | tangr的blog </title>
+  <title> Android开发艺术探索读书笔记十 | tangr的blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +241,7 @@
             
             
               
-                Android开发艺术探索读书笔记一
+                Android开发艺术探索读书笔记十
               
             
           </h1>
@@ -259,8 +253,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-21T22:53:10+08:00" content="2016-05-21">
-              2016-05-21
+            <time itemprop="dateCreated" datetime="2016-06-02T23:11:14+08:00" content="2016-06-02">
+              2016-06-02
             </time>
           </span>
 
@@ -306,13 +300,45 @@
       
 
       
-        <p>1.跳到第二个activity时先执行onpause，在启动后才执行onstop，因此onpause中不宜进行耗时操作。</p>
-<p>2.activity异常停止时在stop前调用onsaveinstancestate通过bundle储存数据，重新启动时会在start后调用onrestoreinstancestate取得数据，也可在create中，但是得先判断bundle是否为空。</p>
-<p>3.设置Android：configchanges=”orientation”可防止屏幕旋转时重建activity，此时会调用onconfigchanged方法，api＞13时同时需加上screensize。常用的有locale切换系统语言，keyboardhidden键盘可访问性发生改变。</p>
-<p>4.launchMode:<br>standard:默认模式，A启动B时b会进入a的栈，所以不能用application context启动。<br>single top:在栈顶时不会重新创建activity，会回调on pause onnewintent on resume方法。<br>sing task:存在即不会重建，会回到栈顶，并销毁在其之上activity，会回调on pause onnewintent on resume方法。<br>single instance：会建立单独的返回栈，可用在其他程序与自己的程序共享activity，a到single b到c，back到a，back到b。</p>
-<p>5.task affinity标识了一个activity所需要的任务栈名字，默认为应用包名。自己定义会新建任务栈。<br>同时当allowtaskrepareniing为true时，当应用b被启动后，activity会直接从应用a的任务栈转移到应用b的任务栈。</p>
-<p>6.intent.addflags(intent.flag_activity_new_task);<br>无法指定single instance。<br>前者无法设定flag_activity_clear_top。<br>优先级高于xml中配置。<br>flag_activity_clear_top: 启动时，位于其上activity都要出栈。<br>flag_activity_exclude_from_recents:不希望通过历史列表回到activity，相当于android:excludefromrecents=“true”</p>
-<p>7.ntentfilter匹配规则<br>action：必须存在且匹配其中一个，区分大小写。<br>category： 系统会默认加上一个android.intent.category.DEAFAULT，所以intent中可以不存在category，但如果存在就必须匹配其中一个。<br>data： data由两部分组成，mimeType和URI，要求和action相似。如果没有指定URI，URI但默认值为content和file（schema）。</p>
+        <p>android消息机制主要指handler的运行机制，handler的运行需要底层的messagequeue和looper的支撑。MessageQueue是以单链表的数据结构存储消息列表但是以队列的形式对外提供插入和删除消息操作的消息队列。MessageQueue只是消息的存储单元，而Looper则是以无限循环的形式去查找是否有新消息，如果有的话就去处理消息，否则就一直等待着。looper中还有一个特殊概念threadlocal，threadlocal可以在每个线程中储存数据，并可以轻松获取每个线程的looper。</p>
+<p>viewRootImpl对UI操作做了验证，由checkThread方法完成。因为UI控件不是线程安全的，并发访问会出问题，所以不允许在子线程中访问UI。如果加上锁机制，会使UI访问逻辑复杂，且降低访问效率。</p>
+<h4 id="ThreadLocal的工作原理"><a href="#ThreadLocal的工作原理" class="headerlink" title="ThreadLocal的工作原理"></a>ThreadLocal的工作原理</h4><p>ThreadLocal是一个线程内部的数据存储类，通过它可以在指定的线程中存储数据，数据存储以后，只有在指定线程中可以获取到存储的数据，对于其他线程来说则无法获取到数据。一般来说，当某些数据是以线程为作用域并且不同线程具有不同的数据副本的时候，可以考虑使用ThreadLocal。 对于Handler来说，它需要获取当前线程的Looper，而Looper的作用域就是线程并且不同线程具有不同的Looper，这个时候通过ThreadLocal就可以实现Looper在线程中的存取了。</p>
+<p>ThreadLocal的原理：不同线程访问同一个ThreadLocal的get方法时，ThreadLocal内部会从各自的线程中取出一个数组，然后再从数组中根据当前ThreadLocal的索引去查找出对应的value值，不同线程中的数组是不同的，这就是为什么通过ThreadLocal可以在不同线程中维护一套数据的副本并且彼此互不干扰。</p>
+<pre><code>public void set(T value) {
+    Thread currentThread = Thread.currentThread();
+    Values values = values(currentThread);
+    if (values == null) {
+        values = initializeValues(currentThread);
+    }
+    values.put(this, value);
+}
+</code></pre><p>Values是Thread类内部专门用来存储线程的ThreadLocal数据的，它内部有一个数组private Object[] table，ThreadLocal的值就存在这个table数组中。如果values的值为null，那么就需要对其进行初始化然后再将ThreadLocal的值进行存储。<br>ThreadLocal数据的存储规则：ThreadLocal的值在table数组中的存储位置总是ThreadLocal的索引+1的位置。</p>
+<h4 id="MessageQueue的工作原理"><a href="#MessageQueue的工作原理" class="headerlink" title="MessageQueue的工作原理"></a>MessageQueue的工作原理</h4><p>MessageQueue其实是通过单链表来维护消息列表的，它包含两个主要操作enqueueMessage和next，前者是插入消息，后者是取出一条消息并移除。next方法是一个无限循环的方法，如果消息队列中没有消息，那么next方法会一直阻塞在这里。当有新消息到来时，next方法会返回这条消息并将它从链表中移除。</p>
+<h4 id="Looper的工作原理"><a href="#Looper的工作原理" class="headerlink" title="Looper的工作原理"></a>Looper的工作原理</h4><p>通过Looper.prepare()即可为当前线程创建一个Looper，接着通过Looper.loop()开启消息循环。还提供了prepareMainLooper方法给主线程创建Looper，getMainLooper方法可以在任意地方获取主线程Looper。退出Looper可以用quit直接退出，也可以用quitSafely待消息队列中消息处理完毕后安全退出。这时handler发送的消息会失败，handler的send方法会返回false。</p>
+<p>loop方法会调用MessageQueue的next方法获取新消息，当没有消息时，next方法会一直阻塞，从而导致loop方法也一直阻塞。loop是一个死循环，唯一跳出方式是next返回null，也就是当Looper的quit方法被调用时，Looper方法会调用MessageQueue的quit或quitSafely方法通知消息队列退出，此时next返回null。next返回消息时，Looper会处理这条消息:msg.target.dispatchMessage(msg)，msg.target时发送这条消息的handler对象，此时handler对象的dispatchMessage方法在创建handler时所使用的Looper中执行，这样就将代码切换到指定线程中去执行了。</p>
+<h4 id="Handler的工作原理"><a href="#Handler的工作原理" class="headerlink" title="Handler的工作原理"></a>Handler的工作原理</h4><p>handler的工作包括消息的发送和接收过程。消息发送可以通过post和send方法完成，post最终也是通过send方法实现的。handler发送的消息仅仅是向消息队列中插入一条消息，消息队列的next方法将这条消息返回给Looper，Looper开始处理消息，最终handler的dispatchMessage方法会被调用。</p>
+<pre><code>public void dispatchMessage(Message msg) {
+    if (msg.callback != null) {
+        handleCallback(msg);//当message是runnable的情况，也就是Handler的post方法传递的参数，这种情况下直接执行runnable的run方法
+    } else {
+        if (mCallback != null) {//如果创建Handler的时候是给Handler设置了Callback接口的实现，那么此时调用该实现的handleMessage方法
+            if (mCallback.handleMessage(msg)) {
+                return;
+            }
+        }
+        handleMessage(msg);//如果是派生Handler的子类，就要重写handleMessage方法，那么此时就是调用子类实现的handleMessage方法
+    }
+}
+
+private static void handleCallback(Message message) {
+    message.callback.run();
+}
+</code></pre><p>msg.callback是一个runnable对象，实际上就是handler的post方法所传递的runnable参数。</p>
+<p>Handler还有一个特殊的构造方法，它可以通过特定的Looper来创建Handler。</p>
+<pre><code>public Handler(Looper looper){
+    this(looper, null, false);
+}
+</code></pre><h4 id="主线程的消息循环"><a href="#主线程的消息循环" class="headerlink" title="主线程的消息循环"></a>主线程的消息循环</h4><p>ndroid的主线程就是ActivityThread，主线程的入口方法就是main，其中调用了Looper.prepareMainLooper()来创建主线程的Looper以及MessageQueue，并通过Looper.loop()方法来开启主线程的消息循环。主线程内有一个Handler，即ActivityThread.H，它定义了一组消息类型，主要包含了四大组件的启动和停止等过程，例如LAUNCH_ACTIVITY等。<br>ActivityThread通过ApplicationThread和AMS进行进程间通信，AMS以进程间通信的方法完成ActivityThread的请求后会回调ApplicationThread中的Binder方法，然后ApplicationThread会向H发送消息，H收到消息后会将ApplicationThread中的逻辑切换到ActivityThread中去执行，即切换到主线程中去执行，这个过程就是主线程的消息循环模型。</p>
 
       
     </div>
@@ -345,16 +371,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/21/studyNote/markdown/" rel="next" title="Markdown初学笔记">
-                <i class="fa fa-chevron-left"></i> Markdown初学笔记
+              <a href="/2016/06/02/bookNote/艺术探索笔记8/" rel="next" title="Android开发艺术探索读书笔记八">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索读书笔记八
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/05/23/bookNote/艺术探索笔记2/" rel="prev" title="Android开发艺术探索读书笔记二">
-                Android开发艺术探索读书笔记二 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/06/03/bookNote/艺术探索笔记11/" rel="prev" title="Android开发艺术探索读书笔记十一">
+                Android开发艺术探索读书笔记十一 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

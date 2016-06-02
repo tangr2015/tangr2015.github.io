@@ -1,0 +1,604 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Android开发艺术探索," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="AsyncTask封装了线程池和Handler，它主要是为了方便开发者在子线程中更新UI。HandlerThread是一种具有消息循环的线程，在它的内部可以使用Handler。IntentService是一个服务，它内部采用HandlerThread来执行任务，当任务执行完毕后IntentService会自动退出。IntentService是后台服务，不易被杀死。
+AsyncTaskAsyncTa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发艺术探索读书笔记十一">
+<meta property="og:url" content="http://yoursite.com/2016/06/03/bookNote/艺术探索笔记11/index.html">
+<meta property="og:site_name" content="tangr的blog">
+<meta property="og:description" content="AsyncTask封装了线程池和Handler，它主要是为了方便开发者在子线程中更新UI。HandlerThread是一种具有消息循环的线程，在它的内部可以使用Handler。IntentService是一个服务，它内部采用HandlerThread来执行任务，当任务执行完毕后IntentService会自动退出。IntentService是后台服务，不易被杀死。
+AsyncTaskAsyncTa">
+<meta property="og:updated_time" content="2016-06-02T16:20:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发艺术探索读书笔记十一">
+<meta name="twitter:description" content="AsyncTask封装了线程池和Handler，它主要是为了方便开发者在子线程中更新UI。HandlerThread是一种具有消息循环的线程，在它的内部可以使用Handler。IntentService是一个服务，它内部采用HandlerThread来执行任务，当任务执行完毕后IntentService会自动退出。IntentService是后台服务，不易被杀死。
+AsyncTaskAsyncTa">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'tangr'
+    }
+  };
+</script>
+
+  <title> Android开发艺术探索读书笔记十一 | tangr的blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">tangr的blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">低调地学习</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开发艺术探索读书笔记十一
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-03T00:20:50+08:00" content="2016-06-03">
+              2016-06-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>AsyncTask封装了线程池和Handler，它主要是为了方便开发者在子线程中更新UI。HandlerThread是一种具有消息循环的线程，在它的内部可以使用Handler。IntentService是一个服务，它内部采用HandlerThread来执行任务，当任务执行完毕后IntentService会自动退出。IntentService是后台服务，不易被杀死。</p>
+<h4 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h4><p>AsyncTask封装了thread和handler，更加方便执行后台任务以及在主线程中访问UI，但不适合特别耗时的后台任务，这种情况更建议使用线程池。</p>
+<p>AsyncTask是一个抽象的泛型类，提供了params,progress，result三个泛型参数，可以用Void代替。</p>
+<p>核心方法：<br>1.onPreExecute():主线程中执行，异步任务执行之前会被调用。<br>2.doInBackground(Params…pramas):执行异步方法，在此方法中可以通过publishProgress方法更新任务进度。<br>3.onProgressUpdate(Progress…values):主线程中调用，会由publishProgress方法调用。<br>4.onPostExecute(Result result):异步任务执行完后会调用，result为doInBackground返回值。</p>
+<p>当异步任务被取消时，onCancelled()会被调用，这时onPostExecute不会被调用。</p>
+<p>限制条件：<br>1.AsyncTask的类必须在主线程中加载<br>2.AsyncTask的对象必须在主线程中创建<br>3.execute方法必须在UI线程中调用<br>4.不要在程序中直接调用onPreExecute，doInBackground，onProgressUpdate，onPostExecute方法<br>5.一个AsyncTask对象只能执行一次execute方法，否则会报运行时异常<br>6.在Android 1.6之前，AsyncTask是串行执行任务的，Android 1.6的时候AsyncTask开始采用线程池并行处理任务，但是从Android 3.0开始，为了避免AsyncTask带来的并发错误，AsyncTask又采用一个线程来串行执行任务。尽管如此，在Android 3.0以及后续版本中，我们可以使用AsyncTask的executeOnExecutor方法来并行执行任务。</p>
+<p><strong>工作原理：</strong><br>AsyncTask中有两个线程池(SerialExecutor和THREAD_POOL_EXECUTOR)和一个handler(InternalHandler)，其中线程池SerialExecutor用于任务的排列，而线程池THREAD_POOL_EXECUTOR用于真正地执行任务，InternalHandler用于将执行环境从线程池切换到主线程。<br>execute方法会调用executeOnExcutor(SerialExecutor,params)，一个进程中的所以AsyncTask任务全部在这个串行线程池中排队执行。在executeOnExcutor中，onPreExecute最先执行，然后线程池开始执行，系统会把AsyncTask的params参数封装为futureTask对象，futureTask是一个并发类，这里当作了runnable作为execute的参数。SerialExecutor的execute方法会把futureTask对象插入到任务队列mTasks中，如果当前没有正在活动的AsyncTask任务，那么就会调用scheduleNext方法执行下一个AsyncTask任务，当执行完后继续调用scheduleNext方法。在futureTask的run方法中会执行doInBackground，并将结果返回，最终通过sHandler发送消息。sHandler是一个静态的handler对象，为了能将执行环境切换到主线程，因此sHandler需要在主线程中创建，静态成员会在加载类时初始化，因此要求AsyncTask的类必须在主线程中加载。sHandler会通过消息类型分别执行onProgressUpdate和finish方法，finish方法判断任务是否取消，是则调用onCancelled方法，否则调用onPostExecute方法。</p>
+<p>为了3.0以上版本能并行执行，可以调用executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,””)方法。</p>
+<h4 id="HandlerThread"><a href="#HandlerThread" class="headerlink" title="HandlerThread"></a>HandlerThread</h4><p>HandlerThread是一种可以使用handler的thread，它在run方法中通过Looper.prepare()来创建消息队列，并通过Looper.loop()来开启消息循环。它与普通thread不同的是外界可以通过Handler的消息方式通知HandlerThread执行一个具体的任务。HandlerThread的run方法是一个无限循环，因此当明确不需要再使用HandlerThread的时候，可以通过它的quit或者quitSafely方法来终止线程的执行。</p>
+<h4 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h4><p>IntentService是一个继承自Service的抽象类，要使用它就要创建它的子类。IntentService适合执行一些高优先级的后台任务，这样不容易被系统杀死。IntentService的onCreate方法中会创建HandlerThread，并使用HandlerThread的Looper来构造一个Handler对象ServiceHandler，这样通过ServiceHandler对象发送的消息最终都会在HandlerThread中执行。每启动service都会执行onStartCommond方法，onStartCommond方法又会调用onStart方法，这之中会将Intent封装到Message中，通过ServiceHandler发送出去，在ServiceHandler的handleMessage方法中会调用IntentService的抽象方法onHandleIntent，所以IntentService的子类都要是实现这个方法。onHandleIntent方法执行完后会调用stopself(startid)方法，stopself()会立刻停止服务，stopself(startid)会等消息处理完。</p>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><p>线程池的优点：<br>1.重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销。<br>2.有效控制线程池的最大并发数，避免大量线程之间因相互抢占系统资源而导致的阻塞现象。<br>3.能对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能。</p>
+<p>Executor只是一个接口，真正的线程池是ThreadPoolExecutor。ThreadPoolExecutor提供了一系列参数来配置线程池，通过不同的参数可以创建不同的线程池，Android的线程池都是通过Executors提供的工厂方法得到的。</p>
+<p>ThreadPoolExecutor的构造参数：<br>1.corePoolSize：核心线程数，默认情况下，核心线程会在线程中一直存活；除非allowCoreThreadTimeOut设置为true。<br>2.maximumPoolSize：最大线程数，当活动线程数达到这个数值后，后续的任务将会被阻塞；<br>3.keepAliveTime：非核心线程闲置时的超时时长，超过这个时长，闲置的非核心线程就会被回收；<br>4.unit：用于指定keepAliveTime参数的时间单位，有TimeUnit.MILLISECONDS、TimeUnit.SECONDS、TimeUnit.MINUTES等；<br>5.workQueue：任务队列，通过线程池的execute方法提交的Runnable对象会存储在这个参数中；<br>6.threadFactory：线程工厂，为线程池提供创建新线程的功能。它是一个接口，它只有一个方法Thread newThread(Runnable r)；<br>7.RejectedExecutionHandler：当线程池无法执行新任务时，可能是由于任务队列已满或者是无法成功执行任务，这个时候就会调用这个Handler的rejectedExecution方法来通知调用者，默认情况下，rejectedExecution会直接抛出一个rejectedExecutionException。</p>
+<p>ThreadPoolExecutor执行任务的规则：<br>1.如果线程池中的线程数未达到核心线程的数量，那么会直接启动一个核心线程来执行任务；<br>2.如果线程池中的线程数量已经达到或者超过核心线程的数量，那么任务会被插入到任务队列中排队等待执行；<br>3.如果在步骤2中无法将任务插入到的任务队列中，可能是任务队列已满，这个时候如果线程数量没有达到规定的最大值，那么会立刻启动非核心线程来执行这个任务；<br>4.如果步骤3中线程数量已经达到线程池规定的最大值，那么就拒绝执行此任务，ThreadPoolExecutor会调用RejectedExecutionHandler的rejectedExecution方法来通知调用者。</p>
+<p>syncTask的THREAD_POOL_EXECUTOR线程池的配置：<br>1.corePoolSize=CPU核心数+1；<br>2.maximumPoolSize=2倍的CPU核心数+1；<br>3.核心线程无超时机制，非核心线程在闲置时间的超时时间为1s；<br>4.任务队列的容量为128。</p>
+<p>Android中最常见的四类线程池:<br>1.<strong>FixedThreadPool</strong><br>线程数量固定，线程处于空闲状态时不会被回收，只有核心线程。<br>2.<strong>CachedThreadPool</strong><br>线程数量不定，只有非核心线程，超时60s的闲置线程会被回收。任务队列相当于为空，任何任务都会立即被执行。适合处理大量耗时较少的任务。<br>3.<strong>ScheduledThreadPool</strong><br>核心线程数量固定，非核心线程数量没有限制，非核心线程闲置时立即被回收，主要用于执行定时任务和具有固定周期的重复任务。<br>4.<strong>SingleThreadExecutor</strong><br>只有一个核心线程，确保所有任务都在同一线程中按顺序执行。任务之间不需要处理线程同步问题。</p>
+<pre><code>ExecutorService fixedThreadPool = Executors.newFixedThreadPool(4);
+fixedThreadPool.execute(command);
+
+ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+cachedThreadPool.execute(command);
+
+ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(4);
+// 2000ms后执行command
+scheduledThreadPool.schedule(command, 2000, TimeUnit.MILLISECONDS);
+// 延迟10ms后，每隔1000ms执行一次command
+scheduledThreadPool.scheduleAtFixedRate(command, 10, 1000, TimeUnit.MILLISECONDS);
+
+ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+singleThreadExecutor.execute(command);
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Android开发艺术探索/" rel="tag">#Android开发艺术探索</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/02/bookNote/艺术探索笔记10/" rel="next" title="Android开发艺术探索读书笔记十">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索读书笔记十
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/avatar/bage.jpg"
+               alt="tangr" />
+          <p class="site-author-name" itemprop="name">tangr</p>
+          <p class="site-description motion-element" itemprop="description">Android</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tangr</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
