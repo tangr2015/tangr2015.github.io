@@ -1,0 +1,640 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Android开发艺术探索," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Bitmap的高效加载BitmapFactory类提供了四类方法：decodeFile、decodeResource、decodeStream和decodeByteArray来加载出一个bitmap对象，其中decodeFile和decodeResource又间接调用了decodeStream方法。
+通过bitmapFactory.Options可以按一定的采样率inSampleSize来加载缩小">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发艺术探索读书笔记十二">
+<meta property="og:url" content="http://yoursite.com/2016/06/03/bookNote/艺术探索笔记12/index.html">
+<meta property="og:site_name" content="tangr的blog">
+<meta property="og:description" content="Bitmap的高效加载BitmapFactory类提供了四类方法：decodeFile、decodeResource、decodeStream和decodeByteArray来加载出一个bitmap对象，其中decodeFile和decodeResource又间接调用了decodeStream方法。
+通过bitmapFactory.Options可以按一定的采样率inSampleSize来加载缩小">
+<meta property="og:updated_time" content="2016-06-03T12:55:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发艺术探索读书笔记十二">
+<meta name="twitter:description" content="Bitmap的高效加载BitmapFactory类提供了四类方法：decodeFile、decodeResource、decodeStream和decodeByteArray来加载出一个bitmap对象，其中decodeFile和decodeResource又间接调用了decodeStream方法。
+通过bitmapFactory.Options可以按一定的采样率inSampleSize来加载缩小">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'tangr'
+    }
+  };
+</script>
+
+  <title> Android开发艺术探索读书笔记十二 | tangr的blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">tangr的blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">低调地学习</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开发艺术探索读书笔记十二
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-03T20:55:55+08:00" content="2016-06-03">
+              2016-06-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Bitmap的高效加载"><a href="#Bitmap的高效加载" class="headerlink" title="Bitmap的高效加载"></a>Bitmap的高效加载</h4><p>BitmapFactory类提供了四类方法：decodeFile、decodeResource、decodeStream和decodeByteArray来加载出一个bitmap对象，其中decodeFile和decodeResource又间接调用了decodeStream方法。</p>
+<p>通过bitmapFactory.Options可以按一定的采样率inSampleSize来加载缩小后的图片。inSampleSize的取值应该总是为2的指数。获取采样率流程：<br>1.将bitmapFactory.Options的inJustDecodeBounds参数设置为true并加载图片。<br>2.从bitmapFactory.Options中取出图片的原始宽高数据。<br>3.根据采样率的规则并结合目标view的大小计算出采样率。<br>4.将bitmapFactory.Options的inJustDecodeBounds参数设置为false，然后重新加载图片。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">decodeSampledBitmapFromResource</span><span class="params">(Resources res, <span class="keyword">int</span> resId, <span class="keyword">int</span> reqWidth, <span class="keyword">int</span> reqHeight)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// First decode with inJustDecodeBounds=true to check dimensions</span></span><br><span class="line">    <span class="keyword">final</span> BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</span><br><span class="line">    options.inJustDecodeBounds = <span class="keyword">true</span>;</span><br><span class="line">    BitmapFactory.decodeResource(res, resId, options);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Calculate inSampleSize</span></span><br><span class="line">    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Decode bitmap with inSampleSize set</span></span><br><span class="line">    options.inJustDecodeBounds = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">return</span> BitmapFactory.decodeResource(res, resId, options);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">calculateInSampleSize</span><span class="params">(BitmapFactory.Options options, <span class="keyword">int</span> reqWidth, <span class="keyword">int</span> reqHeight)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (reqWidth == <span class="number">0</span> || reqHeight == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Raw height and width of image</span></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> height = options.outHeight;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> width = options.outWidth;</span><br><span class="line">    Log.d(TAG, <span class="string">"origin, w= "</span> + width + <span class="string">" h="</span> + height);</span><br><span class="line">    <span class="keyword">int</span> inSampleSize = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (height &gt; reqHeight || width &gt; reqWidth) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> halfHeight = height / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> halfWidth = width / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Calculate the largest inSampleSize value that is a power of 2 and</span></span><br><span class="line">        <span class="comment">// keeps both height and width larger than the requested height and width.</span></span><br><span class="line">        <span class="keyword">while</span> ((halfHeight / inSampleSize) &gt;= reqHeight &amp;&amp; (halfWidth / inSampleSize) &gt;= reqWidth) &#123;</span><br><span class="line">            inSampleSize *= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Log.d(TAG, <span class="string">"sampleSize:"</span> + inSampleSize);</span><br><span class="line">    <span class="keyword">return</span> inSampleSize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Android中的缓存策略"><a href="#Android中的缓存策略" class="headerlink" title="Android中的缓存策略"></a>Android中的缓存策略</h4><p>最常用的缓存算法是LRU，核心是当缓存满时，会优先淘汰那些近期最少使用的缓存对象，系统中采用LRU算法的缓存有两种：LruCache(内存缓存)和DiskLruCache(磁盘缓存)。</p>
+<p><strong>LruCache</strong><br>LruCache是Android 3.1才有的，通过support-v4兼容包可以兼容到早期的Android版本，也建议使用support-v4兼容包提供的LruCache。LruCache是一个泛型类，它内部采用一个linkedHashMap以强引用的方式储存外界的缓存对象。<strong>强引用</strong>:直接的对象引用。<strong>软引用</strong>:系统内存不足时此对象会被gc回收。<strong>弱引用</strong>:此对象会随时被gc回收。LruCache是线程安全的。</p>
+<pre><code>int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    int cacheSize = maxMemory / 8;
+    mMemoryCache = new LruCache&lt;String, Bitmap&gt;(cacheSize) {
+        @Override
+        protected int sizeOf(String key, Bitmap bitmap) {
+            return bitmap.getRowBytes() * bitmap.getHeight() / 1024;
+        }
+    };
+
+mMemoryCache.get(key);
+mMemoryCache.put(key,bitmap);
+</code></pre><p><strong>DiskLruCache</strong><br>DiskLruCache不属于AndroidSDK的一部分，获取的<a href="https://android.googlesource.com/platform/libcore/+/android-4.1.1_r1/luni/src/main/java/libcore/io/DiskLruCache.java" target="_blank" rel="external">源码</a>不能直接在Android中使用，需要稍微修改编译错误。</p>
+<p>1.创建。不能通过构造方法创建，需要用open方法。</p>
+<pre><code>public static DiskLruCache(File directory,int appVertion,int valueCount,long maxSize)
+</code></pre><p>第一个参数表示缓存文件在系统中的存储路径。第二个参数表示应用的版本号，一般设为1即可。第三个参数表示单个节点所对应的个数，一般设为1即可。第四个参数表示缓存的总大小。</p>
+<pre><code>private static final long DISK_CACHE_SIZE = 1024 * 1024 * 50;
+File diskCacheDir = getDiskCacheDir(mContext, &quot;bitmap&quot;);
+if (!diskCacheDir.exists()) {
+    diskCacheDir.mkdirs();
+}
+mDiskLruCache = DiskLruCache.open(diskCacheDir, 1, 1,
+                    DISK_CACHE_SIZE);
+</code></pre><p>2.添加。添加操作是通过Editor完成的，通过editor()获取Editor对象，如果这个缓存正在被编辑那么会返回null。一般会采用url的md5值作为key，防止url中的特殊字符影响在Android中使用。</p>
+<pre><code>String key = hashKeyFormUrl(url);
+DiskLruCache.Editor editor = mDiskLruCache.edit(key);
+OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);
+if (downloadUrlToStream(url, outputStream)) {
+    editor.commit();
+} else {
+    editor.abort();
+}
+mDiskLruCache.flush();
+</code></pre><p>3.查找。先将url转换成key，然后通过get方法获得一个Snapshot对象，接着可以通过Snapshot对象获取缓存文件的输入流，然后获取bitmap对象。需先用bitmapFactory.Options对图片进行处理，通过BitmapFactory.decodeFileDescriptor而不是BitmapFactory.decodeResource。</p>
+<pre><code>Bitmap bitmap = null;
+String key = hashKeyFormUrl(url);
+DiskLruCache.Snapshot snapShot = mDiskLruCache.get(key);
+if (snapShot != null) {
+    FileInputStream fileInputStream = (FileInputStream)snapShot.getInputStream(DISK_CACHE_INDEX);
+    FileDescriptor fileDescriptor = fileInputStream.getFD();
+    bitmap = mImageResizer.decodeSampledBitmapFromFileDescriptor(fileDescriptor,reqWidth, reqHeight);
+    if (bitmap != null) {
+        addBitmapToMemoryCache(key, bitmap);
+    }
+}
+</code></pre><h4 id="ImageLoader的实现"><a href="#ImageLoader的实现" class="headerlink" title="ImageLoader的实现"></a>ImageLoader的实现</h4><p>具备功能：图片的同步异步加载、图片压缩、内存缓存、磁盘缓存、网络拉取。<br><a href="https://github.com/singwhatiwanna/android-art-res/tree/master/Chapter_12" target="_blank" rel="external">示例</a></p>
+<h4 id="ImageLoader的使用"><a href="#ImageLoader的使用" class="headerlink" title="ImageLoader的使用"></a>ImageLoader的使用</h4><p>避免发生列表item错位的解决方法：给显示图片的imageview添加tag属性，值为要加载的图片的目标url，显示的时候判断一下url是否匹配。<br>优化列表的卡顿现象<br>(1)不要在getView中执行耗时操作，不要在getView中直接加载图片，否则肯定会导致卡顿,应用异步的方式；<br>(2)控制异步任务的执行频率：在列表滑动的时候停止加载图片，等列表停下来以后再加载图片；</p>
+<pre><code>@Override
+public void onScrollStateChanged(AbsListView view, int scrollState) {
+    if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+        mIsGridViewIdle = true;
+        mImageAdapter.notifyDataSetChanged();
+    } else {
+        mIsGridViewIdle = false;
+    }
+}
+
+if (mIsGridViewIdle &amp;&amp; mCanGetBitmapFromNetWork) {
+    imageView.setTag(uri);
+    mImageLoader.bindBitmap(uri, imageView, mImageWidth, mImageWidth);
+}
+</code></pre><p>(3)使用硬件加速来解决莫名的卡顿问题，给Activity添加配置android:hardwareAccelerated=”true”。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Android开发艺术探索/" rel="tag">#Android开发艺术探索</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/03/bookNote/艺术探索笔记11/" rel="next" title="Android开发艺术探索读书笔记十一">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索读书笔记十一
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/avatar/bage.jpg"
+               alt="tangr" />
+          <p class="site-author-name" itemprop="name">tangr</p>
+          <p class="site-description motion-element" itemprop="description">Android</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tangr</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
