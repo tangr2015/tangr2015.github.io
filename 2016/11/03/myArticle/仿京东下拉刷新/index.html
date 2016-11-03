@@ -1,0 +1,597 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="自定义View," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="直接进入主题，先来看一下京东的实现效果：
+以及我自己的实现效果：
+实现过程1.下拉原理
+整个布局为继承自LinearLayout的Viewgroup，分为头部及下面的列表部分，通过设置HeaderView的topMargin属性为负使HeaderView向屏幕上方偏移。初始化时设置HeaderView的topMargin为负的HeaderView的高度可以将HeaderView完全隐藏，从而屏幕中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高仿京东下拉刷新，轻松上手！">
+<meta property="og:url" content="http://yoursite.com/2016/11/03/myArticle/仿京东下拉刷新/index.html">
+<meta property="og:site_name" content="tangr的blog">
+<meta property="og:description" content="直接进入主题，先来看一下京东的实现效果：
+以及我自己的实现效果：
+实现过程1.下拉原理
+整个布局为继承自LinearLayout的Viewgroup，分为头部及下面的列表部分，通过设置HeaderView的topMargin属性为负使HeaderView向屏幕上方偏移。初始化时设置HeaderView的topMargin为负的HeaderView的高度可以将HeaderView完全隐藏，从而屏幕中">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2120898-fa76cfbbd1907c2e.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2120898-cbc3858b0af27e72.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2120898-469cdd1dc53ccdeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2016-11-03T15:23:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高仿京东下拉刷新，轻松上手！">
+<meta name="twitter:description" content="直接进入主题，先来看一下京东的实现效果：
+以及我自己的实现效果：
+实现过程1.下拉原理
+整个布局为继承自LinearLayout的Viewgroup，分为头部及下面的列表部分，通过设置HeaderView的topMargin属性为负使HeaderView向屏幕上方偏移。初始化时设置HeaderView的topMargin为负的HeaderView的高度可以将HeaderView完全隐藏，从而屏幕中">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2120898-fa76cfbbd1907c2e.gif?imageMogr2/auto-orient/strip">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'tangr'
+    }
+  };
+</script>
+
+  <title> 高仿京东下拉刷新，轻松上手！ | tangr的blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">tangr的blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">低调地学习</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高仿京东下拉刷新，轻松上手！
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-03T23:05:24+08:00" content="2016-11-03">
+              2016-11-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h6 id="直接进入主题，先来看一下京东的实现效果："><a href="#直接进入主题，先来看一下京东的实现效果：" class="headerlink" title="直接进入主题，先来看一下京东的实现效果："></a>直接进入主题，先来看一下京东的实现效果：</h6><p><img src="http://upload-images.jianshu.io/upload_images/2120898-fa76cfbbd1907c2e.gif?imageMogr2/auto-orient/strip" alt="jd.gif"></p>
+<h6 id="以及我自己的实现效果："><a href="#以及我自己的实现效果：" class="headerlink" title="以及我自己的实现效果："></a>以及我自己的实现效果：</h6><p><img src="http://upload-images.jianshu.io/upload_images/2120898-cbc3858b0af27e72.gif?imageMogr2/auto-orient/strip" alt="myjd.gif"></p>
+<h4 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h4><h6 id="1-下拉原理"><a href="#1-下拉原理" class="headerlink" title="1.下拉原理"></a>1.下拉原理</h6><p><img src="http://upload-images.jianshu.io/upload_images/2120898-469cdd1dc53ccdeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="layout.png"></p>
+<p>整个布局为继承自LinearLayout的Viewgroup，分为头部及下面的列表部分，通过设置HeaderView的topMargin属性为负使HeaderView向屏幕上方偏移。<br>初始化时设置HeaderView的topMargin为负的HeaderView的高度可以将HeaderView完全隐藏，从而屏幕中只看得到列表部分。下拉过程中根据手指划过的距离不断更新HeaderView的topMargin值来改变HeaderView的可视范围从而达到下拉的效果。</p>
+<h6 id="2-效果实现"><a href="#2-效果实现" class="headerlink" title="2.效果实现"></a>2.效果实现</h6><p>观察京东客户端的下拉过程，可以看出下拉过程中快递员和包裹是不断放大的并且透明度在增加，当HeaderView完全可见时达到最大值并且快递员“取到”包裹，松开手后快递员开始“拼命送货”。</p>
+<p>其中放大效果我是用ScaleDrawable实现，通过手指划过的位移改变Drawable的level从而改变图片的大小，不熟悉ScaleDrawable的可以参考<a href="https://liuzhichao.com/2016/android-scaledrawable.html" target="_blank" rel="external">Android Drawable之ScaleDrawable</a>。松开手后快递员奔跑是由帧动画实现。</p>
+<h6 id="3-关键代码"><a href="#3-关键代码" class="headerlink" title="3.关键代码"></a>3.关键代码</h6><p>拦截部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onInterceptTouchEvent(MotionEvent event) &#123;    </span><br><span class="line">    switch (event.getAction()) &#123;        </span><br><span class="line">        case MotionEvent.ACTION_DOWN:           </span><br><span class="line">             mTouchY = event.getY();</span><br><span class="line">             break; </span><br><span class="line">        case MotionEvent.ACTION_MOVE:</span><br><span class="line">             float dy = event.getY() - mTouchY; </span><br><span class="line">            //当RecyclerView移到顶部并且手指向下滑动时，拦截事件，由自己处理Touch事件           </span><br><span class="line">             if (dy &gt; 0 &amp;&amp; canPull)              </span><br><span class="line">                  return true;       </span><br><span class="line">        case MotionEvent.ACTION_UP:  </span><br><span class="line">        default:            </span><br><span class="line">             break;    </span><br><span class="line">    &#125;    </span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>滑动部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">    switch (event.getAction()) &#123;</span><br><span class="line">        case MotionEvent.ACTION_MOVE:</span><br><span class="line">            float dy = event.getY() - mTouchY;</span><br><span class="line">            mTouchY = event.getY();</span><br><span class="line">            if (Math.abs(mTouchY)&lt;touchSlop)</span><br><span class="line">                break;</span><br><span class="line">            if (mCurrentStatus != STATUS_REFRESHING) &#123;</span><br><span class="line">                //除以2是增加下拉的阻力感</span><br><span class="line">                headerLayoutParams.topMargin += dy / 2;</span><br><span class="line">                //此时为向上滑动到头部完全隐藏的情况，继续滑动的话应该交由RecyclerView处理了，故返回false自己不消耗事件。</span><br><span class="line">                if (headerLayoutParams.topMargin&lt;=hideHeaderHeight)&#123;</span><br><span class="line">                    headerLayoutParams.topMargin=hideHeaderHeight;</span><br><span class="line">                    mHeaderView.requestLayout();</span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line">                //此时为头部完全显示的情况</span><br><span class="line">                if (headerLayoutParams.topMargin&gt;=0)&#123;</span><br><span class="line">                    mCurrentStatus = STATUS_RELEASE_TO_REFRESH;</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    mCurrentStatus = STATUS_PULL_TO_REFRESH;</span><br><span class="line">                    //改变图片的大小及透明度</span><br><span class="line">                    onLevelChanged((hideHeaderHeight-headerLayoutParams.topMargin)*100/hideHeaderHeight);</span><br><span class="line">                &#125;</span><br><span class="line">                mHeaderView.requestLayout();</span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">        case MotionEvent.ACTION_UP:</span><br><span class="line">        if (mCurrentStatus == STATUS_PULL_TO_REFRESH)&#123;</span><br><span class="line">            //属性动画实现平滑滚动</span><br><span class="line">           headerAnimation(headerLayoutParams.topMargin,hideHeaderHeight,350,null);</span><br><span class="line">        &#125;else if (mCurrentStatus == STATUS_RELEASE_TO_REFRESH)&#123;</span><br><span class="line">            mCurrentStatus = STATUS_REFRESHING;</span><br><span class="line">            headerAnimation(headerLayoutParams.topMargin,0,250,null);</span><br><span class="line">            if (listener!=null)</span><br><span class="line">                listener.onRefresh();</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    updateHeaderView();</span><br><span class="line">    lastStatus = mCurrentStatus;</span><br><span class="line">    return super.onTouchEvent(event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h6 id="具体代码可以参考https-github-com-tangr2015-JDPullToRefresh"><a href="#具体代码可以参考https-github-com-tangr2015-JDPullToRefresh" class="headerlink" title="具体代码可以参考https://github.com/tangr2015/JDPullToRefresh"></a>具体代码可以参考<a href="https://github.com/tangr2015/JDPullToRefresh" target="_blank" rel="external">https://github.com/tangr2015/JDPullToRefresh</a></h6><p><br><br><br></p>
+<blockquote>
+<p>参考<a href="http://blog.csdn.net/sinyu890807/article/details/9255575" target="_blank" rel="external">Android下拉刷新完全解析，教你如何一分钟实现下拉刷新功能</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/自定义View/" rel="tag">#自定义View</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/05/bookNote/艺术探索笔记15/" rel="next" title="Android开发艺术探索读书笔记十五">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索读书笔记十五
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/avatar/bage.jpg"
+               alt="tangr" />
+          <p class="site-author-name" itemprop="name">tangr</p>
+          <p class="site-description motion-element" itemprop="description">Android</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tangr</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

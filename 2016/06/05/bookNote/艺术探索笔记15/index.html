@@ -84,19 +84,16 @@
 
 
 
-<meta name="description" content="Android性能优化方法1.布局优化尽量使用LinearLayout和FrameLayout，RelativeLayout性能较低。使用标签，该标签只支持layout_开头的属性，且如果存在必须要求有layout_width和layout_height，id除外。
-一般是和标签一起使用从而减少布局的层级。ViewStub继承了View，非常轻量级且宽高为0，因为它本身不参与任何的布局和绘制过程。">
+<meta name="description" content="Android性能优化方法1.布局优化尽量使用LinearLayout和FrameLayout，RelativeLayout性能较低。使用&amp;lt;include&amp;gt;标签，该标签只支持layout_开头的属性，且如果存在必须要求有layout_width和layout_height，id除外。&amp;lt;merge&amp;gt;一般是和&amp;lt;include&amp;gt;标签一起使用从而减少布局的层级。View">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android开发艺术探索读书笔记十五">
 <meta property="og:url" content="http://yoursite.com/2016/06/05/bookNote/艺术探索笔记15/index.html">
 <meta property="og:site_name" content="tangr的blog">
-<meta property="og:description" content="Android性能优化方法1.布局优化尽量使用LinearLayout和FrameLayout，RelativeLayout性能较低。使用标签，该标签只支持layout_开头的属性，且如果存在必须要求有layout_width和layout_height，id除外。
-一般是和标签一起使用从而减少布局的层级。ViewStub继承了View，非常轻量级且宽高为0，因为它本身不参与任何的布局和绘制过程。">
-<meta property="og:updated_time" content="2016-06-05T12:33:43.000Z">
+<meta property="og:description" content="Android性能优化方法1.布局优化尽量使用LinearLayout和FrameLayout，RelativeLayout性能较低。使用&amp;lt;include&amp;gt;标签，该标签只支持layout_开头的属性，且如果存在必须要求有layout_width和layout_height，id除外。&amp;lt;merge&amp;gt;一般是和&amp;lt;include&amp;gt;标签一起使用从而减少布局的层级。View">
+<meta property="og:updated_time" content="2016-11-03T15:11:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android开发艺术探索读书笔记十五">
-<meta name="twitter:description" content="Android性能优化方法1.布局优化尽量使用LinearLayout和FrameLayout，RelativeLayout性能较低。使用标签，该标签只支持layout_开头的属性，且如果存在必须要求有layout_width和layout_height，id除外。
-一般是和标签一起使用从而减少布局的层级。ViewStub继承了View，非常轻量级且宽高为0，因为它本身不参与任何的布局和绘制过程。">
+<meta name="twitter:description" content="Android性能优化方法1.布局优化尽量使用LinearLayout和FrameLayout，RelativeLayout性能较低。使用&amp;lt;include&amp;gt;标签，该标签只支持layout_开头的属性，且如果存在必须要求有layout_width和layout_height，id除外。&amp;lt;merge&amp;gt;一般是和&amp;lt;include&amp;gt;标签一起使用从而减少布局的层级。View">
 
 
 
@@ -303,8 +300,7 @@
       
 
       
-        <h4 id="Android性能优化方法"><a href="#Android性能优化方法" class="headerlink" title="Android性能优化方法"></a>Android性能优化方法</h4><p><strong>1.布局优化</strong><br>尽量使用LinearLayout和FrameLayout，RelativeLayout性能较低。<br>使用<include>标签，该标签只支持layout_开头的属性，且如果存在必须要求有layout_width和layout_height，id除外。</include></p>
-<p><merge>一般是和<include>标签一起使用从而减少布局的层级。<br>ViewStub继承了View，非常轻量级且宽高为0，因为它本身不参与任何的布局和绘制过程。意义在于按需加载布局，如网络错误时的界面。当加载后它会被替换，不再是整个布局的一部分。不支持<merge>标签。</merge></include></merge></p>
+        <h4 id="Android性能优化方法"><a href="#Android性能优化方法" class="headerlink" title="Android性能优化方法"></a>Android性能优化方法</h4><p><strong>1.布局优化</strong><br>尽量使用LinearLayout和FrameLayout，RelativeLayout性能较低。<br>使用&lt;include&gt;标签，该标签只支持layout_开头的属性，且如果存在必须要求有layout_width和layout_height，id除外。<br>&lt;merge&gt;一般是和&lt;include&gt;标签一起使用从而减少布局的层级。<br>ViewStub继承了View，非常轻量级且宽高为0，因为它本身不参与任何的布局和绘制过程。意义在于按需加载布局，如网络错误时的界面。当加载后它会被替换，不再是整个布局的一部分。不支持&lt;merge&gt;标签。</p>
 <p><strong>2.绘制优化</strong><br>onDraw中不要创建新的局部对象。onDraw中不要做耗时操作和大量循环操作。</p>
 <p><strong>3.内存泄露优化</strong><br>导致内存泄露的情况:静态变量引用activity对象；单例模式中因监听未解注册而持有activity对象；属性动画未cancel。</p>
 <p><strong>4.响应速度优化和ARN日志分析</strong><br>Activity如果5s内没有响应屏幕触摸事件或者键盘输入事件就会ANR，而BroadcastReceiver如果10s内没有执行完操作也会出现ANR。<br>当一个进程发生了ANR之后，系统会在/data/anr目录下创建一个文件traces.txt，通过分析这个文件就能定位ANR的原因。</p>
@@ -359,6 +355,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/03/myArticle/仿京东下拉刷新/" rel="prev" title="高仿京东下拉刷新，轻松上手！">
+                高仿京东下拉刷新，轻松上手！ <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -417,7 +417,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -425,7 +425,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -434,7 +434,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
